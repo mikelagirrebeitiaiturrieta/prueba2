@@ -81,10 +81,10 @@ def principal():
         
 
 
-@app.route('/uploads/<name>', methods=['GET', 'POST'])
-def download_file(name):
-    print(os.path.exists(os.path.join(app.config["UPLOAD_FOLDER"], name)))
-    return send_from_directory(app.config["UPLOAD_FOLDER"], name, as_attachment=True)
+# @app.route('/uploads/<name>', methods=['GET', 'POST'])
+# def download_file(name):
+#     print(os.path.exists(os.path.join(app.config["UPLOAD_FOLDER"], name)))
+#     return send_from_directory(app.config["UPLOAD_FOLDER"], name, as_attachment=True)
 
 @app.route('/register', methods=['POST','GET'])
 def register():
