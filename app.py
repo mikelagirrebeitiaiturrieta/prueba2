@@ -5,7 +5,7 @@ import os
 import time
 import json
 app = Flask(__name__)
-config = json.load(open('config.json','rb'))
+# config = json.load(open('config.json','rb'))
 # app.config['UPLOAD_FOLDER'] = config['upload_folder']
 
 access=False
