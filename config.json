@@ -1,0 +1,8 @@
+{
+    "workdir": "C:/Users/Mikel/OneDrive - Bittek Soluciones Tecnológicas/PROYECTOS/Pickup-Optimizer/datos/test/global",
+    "filename": "19-01-2023_Rutas_Raee_Muebles.xlsx",
+    "datadir": "C:/Users/Mikel/OneDrive - Bittek Soluciones Tecnológicas/PROYECTOS/Pickup-Optimizer/datos/test/",
+    "upload_folder": "C:/Users/Mikel/OneDrive - Bittek Soluciones Tecnológicas/PROYECTOS/Pickup-Optimizer/datos/upload/",
+    "templatesdir": "C:/Users/Mikel/OneDrive - Bittek Soluciones Tecnológicas/PROYECTOS/Pickup-Optimizer/api/templates/",
+    "distance_matrix_folder" : "../SavedData"
+}

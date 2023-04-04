@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="static/css/estilos.css" rel="stylesheet" />
+  <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
+  <link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+  rel="stylesheet"
+  />
+  <link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  rel="stylesheet"
+  />
+  <link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css"
+  rel="stylesheet"
+  />
+  <title>Prezero</title>
+  <link rel = "icon" href = "static/img/dataquantum-Q.svg"
+        type = "image/x-icon">
+</head>
+<header class="fixed-top" id="header">
+  <nav class="navbar navbar-expand-lg navbar-light" id="barra">
+      <div class="container-fluid"> 
+        <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-6  d-flex align-items-center justify-content-left" >
+          <div id="dropzone3">
+          <img src="static/img/dataquantum-white-LOGO.svg" class="uupload-icon-cabecera" id="dataquantum" />
+          <input type="submit" class="upload-input" formaction="{{url_for('principal')}}" value=""></input>
+          </div>
+          </div>
+          <div class="col-6  d-flex align-items-center justify-content-right">
+          <ul class="navbar-nav ms-auto jump">
+            <li class="nav-item"><input type="submit" class="input_transparente"  value="Optimización Muebles" name="muebles"></input></li>
+            <li class="nav-item"><input type="submit" class="input_transparente"  value="Optimización Electrodomésticos" name="electrodomesticos"></input></li>
+          </ul>
+          </div>
+        </div>
+        </form>
+      </div>
+  </nav>
+</header>
+
+<!-- Navbar Final -->
+
+<!-- ------Introduccion------ -->
+<section id="introduccion" class="d-flex align-items-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+        data-aos="fade-up" data-aos-delay="200">
+        <h1>Global Data Quantum</h1>
+        <h4>Explotamos tus datos con el fin de proveer una ventaja competitiva.</h4>
+        <a href="#objetivos" class="empezar scrollto">Empezar</a>
+      </div>
+      <div class="col-lg-6 order-1 order-lg-2 introduccion-img" data-aos="zoom-in" data-aos-delay="200">
+        <img src="static/img/undraw_data_re_80ws.svg" class="img-fluid animated" alt="" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="logos" class="logos section-bg">
+  <div class="container">
+    <div class="row" data-aos="zoom-in">
+      <div class="col-6  d-flex align-items-center justify-content-center">
+        <a href='https://www.globaldataquantum.com/es/inicio/'>
+          <img src="static/img/dataquantum-bueno.svg" id="dataquantum" alt=""></a>
+      </div>
+      <div class="col-6  d-flex align-items-center justify-content-center">
+        <a href='https://prezero.es/es/'>
+          <img src="https://prezero.es/wp-content/uploads/2021/11/logo-prezero2.svg" class="img-fluid" alt=""></a>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- Introduccion Final-->
+
+<!--  ------Información------ -->
+<section class="informacion" id="informacion">
+  <div class="section-title"><h2>Información sobre el proyecto</h2></div>
+  <div class="container">
+    <div class="row justify-content-around">
+      <div class="col-md-5 d-flex flex-column order-1 " >
+        <img src="static/img/route-image.svg" alt="" class="img-fluid">
+      </div>
+      <div class="col-md-5 order-2 align-self-center explicacion" id="caja-b" data-aos="zoom-in" data-aos-delay="100" data-aos-easing="ease-in-out" data-aos-offset="200">
+        <h1>Información</h1>
+        <p>Página web diseñada para la carga de ficheros donde se especifican los puntos de recogida tanto de muebles como electrodomésticos, conectado
+          a una algoritmo de <strong>optimización de rutas</strong> que devuelve el orden optimo a seguir para ahorrar en costes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!--  Información Final -->
+<!--  ------Objetivos------ -->
+<form action = "{{ url_for('principal') }}" method = "post">
+<footer class="pagina-footer">
+<p><a href="https://www.globaldataquantum.com/es/inicio/">Global Data Quantum</a></p>
+
+</footer>
+</form>
+<!--  Objetivos Final -->
+<button type="button" class="btn btn-dark btn-floating btn-md" id="btn-back-to-top">
+  <i class="fa fa-arrow-up"></i>
+</button>
+<script src="static/js/scroll.js"></script>
+<script src="static/js/script.js"></script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+<script
+type="text/javascript"
+src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"></script>
+   <!-- <body>
+      <form  method = "POST" enctype=multipart/form-data>
+        <br>
+        <input type="file" name="filename" >
+          <input type="submit">
+        <br>
+
+        <input type = "submit" name="action" value = "download" />
+        <br>
+        <img src="{{ url_for('static', filename = 'dataquantum.png') }}"><img>
+      </form>
+   </body> -->
+</html>

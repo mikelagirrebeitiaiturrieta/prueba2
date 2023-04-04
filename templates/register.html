@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="static/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="static/css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="static/css/style.css">
+
+    <title>Register #7</title>
+    <link rel = "icon" href = "static/img/dataquantum-Q.svg"
+        type = "image/x-icon">
+  </head>
+  <body>
+  
+
+
+  <div class="content">
+    <div class="container">
+      <div class="row">
+      
+        <div class="col-md-6">
+         <div class="mb-4"><p class="mb-4"></p></div>
+          <img src="static/img/undraw_welcome_cats_thqn.svg" alt="Image" class="img-fluid">
+        </div>
+        <div class="col-md-6 contents">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="mb-4">
+              <h3>Regístrate</h3>
+              <p class="mb-4"></p>
+            </div>
+            <form action = "{{ url_for('register') }}" method = "post">
+              <div class="form-group first">
+                <label for="username">Username</label>
+                <input type = "text" name = "username"  class="form-control" id="username">
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name = "password" minlength="8" maxlength="8">
+              </div>
+              <div class="form-group">
+               <label for="password">Confirm Password</label>
+               <input type="password" class="form-control" id="password" name = "confirm_password" minlength="8" maxlength="8">
+             </div>
+             <div class="form-group  last mb-4">
+               <label for="username">Email</label>
+               <input type = "text" name = "email"  class="form-control" id="username">
+             </div>
+              <input type="submit" value = "Enviar" name='boton' class="btn btn-block btn-primary"></input>
+            </form>      
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  
+    <script src="static/js/jquery-3.3.1.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/main.js"></script>
+  </body>
+</html>
+
+<!-- <html>
+   <body>
+      <form action="{{ url_for('register') }}" method = "post">
+         <h1>REGISTRESE</h1>
+         <p><strong>{{msg}}</strong></p>
+         <p>{{msg1}}</p>
+         <p>{{msg2}}</p>
+         <p>{{msg3}}</p>
+         <p>Nombre de usuario:<input type = "text" name = "username" /></p>
+         <p>Contraseña (8 caracteres):<input type = "password" name = "password" minlength="8" maxlength="8"/></p>
+         <p>Confirma Contraseña (8 caracteres):<input type = "password" name = "confirm_password" minlength="8" maxlength="8"/></p>
+         <p>Email:<input type = "text" name = "email" /></p>
+         <br>
+         <input type = "submit" value = "Enviar" name='boton'/>
+         <br>
+      </form>
+   </body>
+</html> -->
