@@ -172,182 +172,182 @@ def register():
                 return render_template('login.html')
 
     
-@app.route('/muebles', methods=['POST','GET'])
-def muebles():
-    global access, mueble, msg_run, msg_upload_send, msg_download
-    if request.method=='POST':
-        try:
-            mueble = request.form['muebles']
-            if mueble in ["Acceder", "Optimización Muebles"]:
-                mueble=''
-                return render_template('muebles.html',msg_upload=msg_upload_send, msg_run=msg_run, msg_download=msg_download)
-        except:
-            try:
-                try:
-                    if request.form['filename']=='error':
-                        return redirect(url_for('muebles'))
-                except:
-                    if request.files.get("filename"):
-                        file = request.files.get("filename")
-                        file.filename = 'muebles_routes.xls'
-                        if os.path.exists(app.config['UPLOAD_FOLDER']):
-                            files = os.listdir(app.config['UPLOAD_FOLDER'])
-                            [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'muebles_routes.xls' in file]
-                            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-                        else:
-                            os.makedirs(app.config['UPLOAD_FOLDER'])
-                            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-                        access=True
-                        return redirect(url_for('muebles'))
-            except:
-                pass
-            try:
-                if (request.form['run']=='error'):
-                    return redirect(url_for('muebles'))
-                elif (request.form['run']==''):
-                    list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
-                    last_file = [file for file in list_dir if 'muebles_routes.xls' in file][-1]
-                    # file = os.listdir(app.config['UPLOAD_FOLDER'])
-                    # [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'm' in file]
-                    # main(path=os.path.join(app.config['UPLOAD_FOLDER'], file), num_vehicles=1)
-                    config = json.load(open('config.json','rb'))
-                    # print(config)
-                    # main(config=config, file=last_file, type='muebles')
-                    access=True
-                    time.sleep(1)
-                    return render_template('muebles.html')
-            except:
-                pass
-            try:
-                if (request.form['download'] == 'error'):
-                    return redirect(url_for('muebles'))
-                elif (request.form['download'] == 'download'):
-                    list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
-                    files = [file for file in list_dir if ('muebles' in file)&('ordenado' in file)]
-                    for f in files:
-                        access=True
-                        return redirect(url_for("download_file", name=f))
-                    # return render_template('muebles.html')
-            except:
-                pass
-            try:
-                if (request.form['optimized'] == ''):
-                    access=True
-                    return render_template('muebles.html')
-            except:
-                msg_upload_send = False
-                msg_run = False
-                msg_download = False
-                return render_template('muebles.html', msg_upload=msg_upload_send, msg_run=msg_run)
-    else:
-        if access==True:
-            access=False
-            msg_upload_send = False
-            msg_run = False
-            msg_download = False
-            return render_template('muebles.html',msg_upload=msg_upload_send, msg_run=msg_run)
-        else:
-            return redirect(url_for('principal'))
+# @app.route('/muebles', methods=['POST','GET'])
+# def muebles():
+#     global access, mueble, msg_run, msg_upload_send, msg_download
+#     if request.method=='POST':
+#         try:
+#             mueble = request.form['muebles']
+#             if mueble in ["Acceder", "Optimización Muebles"]:
+#                 mueble=''
+#                 return render_template('muebles.html',msg_upload=msg_upload_send, msg_run=msg_run, msg_download=msg_download)
+#         except:
+#             try:
+#                 try:
+#                     if request.form['filename']=='error':
+#                         return redirect(url_for('muebles'))
+#                 except:
+#                     if request.files.get("filename"):
+#                         file = request.files.get("filename")
+#                         file.filename = 'muebles_routes.xls'
+#                         if os.path.exists(app.config['UPLOAD_FOLDER']):
+#                             files = os.listdir(app.config['UPLOAD_FOLDER'])
+#                             [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'muebles_routes.xls' in file]
+#                             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+#                         else:
+#                             os.makedirs(app.config['UPLOAD_FOLDER'])
+#                             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+#                         access=True
+#                         return redirect(url_for('muebles'))
+#             except:
+#                 pass
+#             try:
+#                 if (request.form['run']=='error'):
+#                     return redirect(url_for('muebles'))
+#                 elif (request.form['run']==''):
+#                     list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
+#                     last_file = [file for file in list_dir if 'muebles_routes.xls' in file][-1]
+#                     # file = os.listdir(app.config['UPLOAD_FOLDER'])
+#                     # [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'm' in file]
+#                     # main(path=os.path.join(app.config['UPLOAD_FOLDER'], file), num_vehicles=1)
+#                     config = json.load(open('config.json','rb'))
+#                     # print(config)
+#                     # main(config=config, file=last_file, type='muebles')
+#                     access=True
+#                     time.sleep(1)
+#                     return render_template('muebles.html')
+#             except:
+#                 pass
+#             try:
+#                 if (request.form['download'] == 'error'):
+#                     return redirect(url_for('muebles'))
+#                 elif (request.form['download'] == 'download'):
+#                     list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
+#                     files = [file for file in list_dir if ('muebles' in file)&('ordenado' in file)]
+#                     for f in files:
+#                         access=True
+#                         return redirect(url_for("download_file", name=f))
+#                     # return render_template('muebles.html')
+#             except:
+#                 pass
+#             try:
+#                 if (request.form['optimized'] == ''):
+#                     access=True
+#                     return render_template('muebles.html')
+#             except:
+#                 msg_upload_send = False
+#                 msg_run = False
+#                 msg_download = False
+#                 return render_template('muebles.html', msg_upload=msg_upload_send, msg_run=msg_run)
+#     else:
+#         if access==True:
+#             access=False
+#             msg_upload_send = False
+#             msg_run = False
+#             msg_download = False
+#             return render_template('muebles.html',msg_upload=msg_upload_send, msg_run=msg_run)
+#         else:
+#             return redirect(url_for('principal'))
 
  
     
 
-@app.route('/electrodomesticos', methods=['POST','GET'])
-def electrodomesticos():
-    global access, electrodomestico, msg_run, msg_upload_send, msg_download
-    if request.method=='POST':
-        try:
-            electrodomestico = request.form['electrodomesticos']
-            if electrodomestico in ["Acceder", "Optimización Electrodomésticos"]:
-                electrodomestico=''
-                return render_template('electrodomesticos.html', msg_upload=msg_upload_send, msg_run=msg_run, msg_download=msg_download)
-        except:
-            try:
-                try:
-                    if request.form['filename']=='error':
-                        return redirect(url_for('electrodomesticos'))
-                except:
-                    if request.files.get("filename"):
-                        file = request.files.get("filename")
-                        file.filename = 'electrodomesticos_routes.xls'
-                        if os.path.exists(app.config['UPLOAD_FOLDER']):
-                            files = os.listdir(app.config['UPLOAD_FOLDER'])
-                            [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'electrodomesticos_routes.xls' in file]
-                            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-                        else:
-                            os.makedirs(app.config['UPLOAD_FOLDER'])
-                            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-                        access=True
-                        return redirect(url_for('electrodomesticos'))
-            except:
-                pass
-            try:
-                if (request.form['run']=='error'):
-                    return redirect(url_for('electrodomesticos'))
-                elif (request.form['run']==''):
-                    list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
-                    last_file = [file for file in list_dir if 'electrodomesticos_routes.xls' in file][-1]
-                    # file = os.listdir(app.config['UPLOAD_FOLDER'])
-                    # [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'm' in file]
-                    # main(path=os.path.join(app.config['UPLOAD_FOLDER'], file), num_vehicles=1)
-                    config = json.load(open('config.json','rb'))
-                    # print(config)
-                    # main(config=config, file=last_file, type='electrodomesticos')
-                    access=True
-                    time.sleep(1)
-                    return render_template('electrodomesticos.html')
-            except:
-                pass
-            try:
-                if (request.form['download'] == 'error'):
-                    return redirect(url_for('electrodomesticos'))
-                elif (request.form['download'] == 'download'):
-                    list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
-                    files = [file for file in list_dir if ('electrodomesticos' in file)&('ordenado' in file)]
-                    for f in files:
-                        access=True
-                        return redirect(url_for("download_file", name=f))
-            except:
-                pass
-            try:
-                if (request.form['optimized'] == ''):
-                    access=True
-                    return render_template('electrodomesticos.html')
-            except:
-                msg_upload_send = False
-                msg_run = False
-                msg_download = False
-                return render_template('electrodomesticos.html', msg_upload=msg_upload_send, msg_run=msg_run, msg_download=msg_download)
-    else:
-        if access==True:
-            access=False
-            msg_upload_send = False
-            msg_run = False
-            msg_download = False
-            return render_template('electrodomesticos.html',msg_upload=msg_upload_send, msg_run=msg_run, msg_download=msg_download)
-        else:
-            return redirect(url_for('principal'))
+# @app.route('/electrodomesticos', methods=['POST','GET'])
+# def electrodomesticos():
+#     global access, electrodomestico, msg_run, msg_upload_send, msg_download
+#     if request.method=='POST':
+#         try:
+#             electrodomestico = request.form['electrodomesticos']
+#             if electrodomestico in ["Acceder", "Optimización Electrodomésticos"]:
+#                 electrodomestico=''
+#                 return render_template('electrodomesticos.html', msg_upload=msg_upload_send, msg_run=msg_run, msg_download=msg_download)
+#         except:
+#             try:
+#                 try:
+#                     if request.form['filename']=='error':
+#                         return redirect(url_for('electrodomesticos'))
+#                 except:
+#                     if request.files.get("filename"):
+#                         file = request.files.get("filename")
+#                         file.filename = 'electrodomesticos_routes.xls'
+#                         if os.path.exists(app.config['UPLOAD_FOLDER']):
+#                             files = os.listdir(app.config['UPLOAD_FOLDER'])
+#                             [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'electrodomesticos_routes.xls' in file]
+#                             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+#                         else:
+#                             os.makedirs(app.config['UPLOAD_FOLDER'])
+#                             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+#                         access=True
+#                         return redirect(url_for('electrodomesticos'))
+#             except:
+#                 pass
+#             try:
+#                 if (request.form['run']=='error'):
+#                     return redirect(url_for('electrodomesticos'))
+#                 elif (request.form['run']==''):
+#                     list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
+#                     last_file = [file for file in list_dir if 'electrodomesticos_routes.xls' in file][-1]
+#                     # file = os.listdir(app.config['UPLOAD_FOLDER'])
+#                     # [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'm' in file]
+#                     # main(path=os.path.join(app.config['UPLOAD_FOLDER'], file), num_vehicles=1)
+#                     config = json.load(open('config.json','rb'))
+#                     # print(config)
+#                     # main(config=config, file=last_file, type='electrodomesticos')
+#                     access=True
+#                     time.sleep(1)
+#                     return render_template('electrodomesticos.html')
+#             except:
+#                 pass
+#             try:
+#                 if (request.form['download'] == 'error'):
+#                     return redirect(url_for('electrodomesticos'))
+#                 elif (request.form['download'] == 'download'):
+#                     list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
+#                     files = [file for file in list_dir if ('electrodomesticos' in file)&('ordenado' in file)]
+#                     for f in files:
+#                         access=True
+#                         return redirect(url_for("download_file", name=f))
+#             except:
+#                 pass
+#             try:
+#                 if (request.form['optimized'] == ''):
+#                     access=True
+#                     return render_template('electrodomesticos.html')
+#             except:
+#                 msg_upload_send = False
+#                 msg_run = False
+#                 msg_download = False
+#                 return render_template('electrodomesticos.html', msg_upload=msg_upload_send, msg_run=msg_run, msg_download=msg_download)
+#     else:
+#         if access==True:
+#             access=False
+#             msg_upload_send = False
+#             msg_run = False
+#             msg_download = False
+#             return render_template('electrodomesticos.html',msg_upload=msg_upload_send, msg_run=msg_run, msg_download=msg_download)
+#         else:
+#             return redirect(url_for('principal'))
 
 
-@app.route('/muebles_map', methods=['POST','GET'])
-def muebles_map():
-    global access
-    if request.method=='GET':
-        if access==True:
-            access=False
-            return render_template('muebles_map.html')
-        else:
-            return redirect(url_for('muebles'))
+# @app.route('/muebles_map', methods=['POST','GET'])
+# def muebles_map():
+#     global access
+#     if request.method=='GET':
+#         if access==True:
+#             access=False
+#             return render_template('muebles_map.html')
+#         else:
+#             return redirect(url_for('muebles'))
 
-@app.route('/electrodomesticos_map', methods=['POST','GET'])
-def electrodomesticos_map():
-    global access
-    if request.method=='GET':
-        if access==True:
-            access=False
-            return render_template('electrodomesticos_map.html')
-        else:
-            return redirect(url_for('electrodomesticos'))
+# @app.route('/electrodomesticos_map', methods=['POST','GET'])
+# def electrodomesticos_map():
+#     global access
+#     if request.method=='GET':
+#         if access==True:
+#             access=False
+#             return render_template('electrodomesticos_map.html')
+#         else:
+#             return redirect(url_for('electrodomesticos'))
 
 
 if __name__ == '__main__':
