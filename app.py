@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, send_file
-from main import main
+# from main import main
 import sqlite3 as sql
 # import os
 # import time
