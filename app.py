@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for
 import sqlite3 as sql
 import json
 app = Flask(__name__)
-config = json.load(open('config.json','rb'))
-app.config['UPLOAD_FOLDER'] = config['upload_folder']
+# # config = json.load(open('config.json','rb'))
+# # app.config['UPLOAD_FOLDER'] = config['upload_folder']
 
 access=True
 mueble=''
@@ -13,57 +13,57 @@ msg_upload_send = False
 msg_run = False
 msg_download = False
 
-# @app.route('/', methods=['POST','GET'])
-# def login():
-#    global access, user_message
-#    if request.method=='POST':
-#        try:
-#             con = sql.connect("database.db")
-#             con.row_factory = sql.Row
-#             cur = con.cursor()
-#             cur.execute("select * from usuarios")
-#             rows_reservas = cur.fetchall();
-#             contador = [row for row in rows_reservas]
-#             username_password = {}
-#             for row in rows_reservas:
-#                 username_password[row['username']] = row['password']
-#             con.close()
-#             if len(contador)==0:
-#                 msg='No hay usuarios registrados'
-#                 return render_template("login.html",msg=msg)
-#             # elif len(contador)==1:
-#             #     msg='Hay 1 usuario registrado. Inicie sesión con esa cuenta, o puede crear otro usuario.'
-#             #     return render_template("login.html",msg=msg)
-#             else:
-#                 try:
-#                     if username_password[request.form['user']] == request.form['key']:
-#                         access=True
-#                         return redirect(url_for('principal'))
-#                     else:
-#                         msg = 'El usuario introducido es correcto pero la contraseña no. Por favor, inténtelo de nuevo!'
-#                         return render_template('login.html', msg=msg)  
-#                 except:
-#                     msg = 'El usuario introducido no existe. Por favor, inténtelo de nuevo!'
-#                     return render_template('login.html', msg=msg)  
-#        except:
-#             try:
-#                  if (request.form['boton'] == 'Enviar'):
-#                     return render_template('login.html')
-#             except:
-#                 return render_template('login.html')
-#    else:
-#         try:
-#            if user_message=='user_created':
-#                 msg = 'Los dos usuarios que se pueden crear ya han sido creados. Por favor, inicie sesión.'
-#                 return render_template('login.html', msg=msg)
-#            else:
-#                 return render_template('login.html')
-#         except:
-#             return render_template('login.html')
+@app.route('/', methods=['POST','GET'])
+def login():
+   global access, user_message
+   if request.method=='POST':
+       try:
+            con = sql.connect("database.db")
+            con.row_factory = sql.Row
+            cur = con.cursor()
+            cur.execute("select * from usuarios")
+            rows_reservas = cur.fetchall();
+            contador = [row for row in rows_reservas]
+            username_password = {}
+            for row in rows_reservas:
+                username_password[row['username']] = row['password']
+            con.close()
+            if len(contador)==0:
+                msg='No hay usuarios registrados'
+                return render_template("login.html",msg=msg)
+            # elif len(contador)==1:
+            #     msg='Hay 1 usuario registrado. Inicie sesión con esa cuenta, o puede crear otro usuario.'
+            #     return render_template("login.html",msg=msg)
+            else:
+                try:
+                    if username_password[request.form['user']] == request.form['key']:
+                        access=True
+                        return redirect(url_for('principal'))
+                    else:
+                        msg = 'El usuario introducido es correcto pero la contraseña no. Por favor, inténtelo de nuevo!'
+                        return render_template('login.html', msg=msg)  
+                except:
+                    msg = 'El usuario introducido no existe. Por favor, inténtelo de nuevo!'
+                    return render_template('login.html', msg=msg)  
+       except:
+            try:
+                 if (request.form['boton'] == 'Enviar'):
+                    return render_template('login.html')
+            except:
+                return render_template('login.html')
+   else:
+        try:
+           if user_message=='user_created':
+                msg = 'Los dos usuarios que se pueden crear ya han sido creados. Por favor, inicie sesión.'
+                return render_template('login.html', msg=msg)
+           else:
+                return render_template('login.html')
+        except:
+            return render_template('login.html')
          
        
 
-@app.route('/', methods=['POST','GET'])
+@app.route('/principal', methods=['POST','GET'])
 def principal():
     global access
     if request.method=='POST':
