@@ -19,7 +19,7 @@ msg_download = False
 @app.route('/', methods=['POST','GET'])
 def login():
    global access, user_message
-   print(app.root_path)
+#    print(app.root_path)
    if request.method=='POST':
        try:
             con = sql.connect("database.db")
@@ -141,7 +141,7 @@ def register():
                         con = sql.connect('database.db')
                         cur = con.cursor()
                         try:
-                            print('here')
+                            # print('here')
                             result=request.form
                             cur.execute("INSERT INTO usuarios (username, password, confirm_password, email) VALUES (?,?,?,?)",(username, password, confirm_password, email))
                             con.commit()
