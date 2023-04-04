@@ -40,8 +40,8 @@
           </div>
           <div class="col-6  d-flex align-items-center justify-content-right">
           <ul class="navbar-nav ms-auto jump">
-            <li class="nav-item"><input type="submit" class="input_transparente"  value="Optimización Muebles" name="muebles"></input></li>
-            <li class="nav-item"><input type="submit" class="input_transparente"  value="Optimización Electrodomésticos" name="electrodomesticos"></input></li>
+            <li class="nav-item"><input type="submit" class="input_transparente" formaction="{{url_for('muebles')}}" value="Optimización Muebles" name="muebles"></input></li>
+            <li class="nav-item"><input type="submit" class="input_transparente" formaction="{{url_for('electrodomesticos')}}" value="Optimización Electrodomésticos" name="electrodomesticos"></input></li>
           </ul>
           </div>
         </div>
@@ -106,6 +106,37 @@
 <!--  Información Final -->
 <!--  ------Objetivos------ -->
 <form action = "{{ url_for('principal') }}" method = "post">
+<section class="objetivos" id="objetivos">
+  <div class="section-title"><h2>Tareas de optimización</h2></div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-12 order-2 mt-lg-0 mt-4"" data-aos="zoom-in" data-aos-delay="100" data-aos-easing="ease-in-out" data-aos-offset="200">
+      <div class="card text-center " >
+        <div class="bg-image" >
+          <img src="static/img/muebles2.svg" class="img-fluid" id="principal-icons1"/>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Muebles</h5>
+          <p class="card-text">Optimización de rutas para muebles.</p>
+          <input type="submit" formaction="{{url_for('muebles')}}" class="btn btn-dark" name="muebles" value="Acceder"></input>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-12 order-2 mt-lg-0 mt-4 " data-aos="zoom-in" data-aos-delay="100" data-aos-easing="ease-in-out" data-aos-offset="200">
+      <div class="card text-center">
+        <div class="bg-image" >
+          <img src="static/img/electrodomesticos2.svg" alt="" class="img-fluid" id="principal-icons1"/>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Electrodomésticos</h5>
+          <p class="card-text">Optimización de rutas para electrodomésticos</p>
+          <input type="submit" formaction="{{url_for('electrodomesticos')}}" class="btn btn-dark" name="electrodomesticos" value="Acceder"></input>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
 <footer class="pagina-footer">
 <p><a href="https://www.globaldataquantum.com/es/inicio/">Global Data Quantum</a></p>
 

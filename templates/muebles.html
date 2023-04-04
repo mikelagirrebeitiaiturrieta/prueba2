@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="static/css/estilos.css" rel="stylesheet" />
+  <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
+  <link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+  rel="stylesheet"
+  />
+  <link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  rel="stylesheet"
+  />
+  <link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css"
+  rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+
+  <title>Prezero</title>
+  <link rel = "icon" href = "static/img/dataquantum-Q.svg"
+        type = "image/x-icon">
+</head>
+<header class="fixed-top" id="header">
+  <nav class="navbar navbar-expand-lg navbar-light" id="barra">
+      <div class="container-fluid"> 
+        <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-6  d-flex align-items-center justify-content-left" >
+          <div id="dropzone3">
+          <img src="static/img/dataquantum-white-LOGO.svg" class="uupload-icon-cabecera" id="dataquantum" />
+          <input type="submit" class="upload-input" formaction="{{url_for('principal')}}" value=""></input>
+          </div>
+          </div>
+          <div class="col-6  d-flex align-items-center justify-content-right">
+          <ul class="navbar-nav ms-auto jump">
+            <li class="nav-item"><input type="submit" class="input_transparente" formaction="{{url_for('muebles')}}" value="Optimización Muebles" name="muebles"></input></li>
+            <li class="nav-item"><input type="submit" class="input_transparente" formaction="{{url_for('electrodomesticos')}}" value="Optimización Electrodomésticos" name="electrodomesticos"></input></li>
+          </ul>
+          </div>
+        </div>
+        </form>
+      </div>
+  </nav>
+</header>
+
+<body>
+<!-- Navbar Final -->
+
+<!-- ------Introduccion------ -->
+<!-- <section id="introduccion" class="d-flex align-items-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+        data-aos="fade-up" data-aos-delay="200">
+        <h1 class="justify-content-around">Optimización rutas para muebles</h1>
+      </div>
+      <div class="col-lg-1 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+        data-aos="fade-up" data-aos-delay="200">
+      </div>
+      <div class="col-lg-4 order-1 order-lg-2 d-flex flex-column order-1 " data-aos="zoom-in" data-aos-delay="200" >
+        <img src="static/img/muebles2.svg" class="img-fluid animated" alt="" id="principal-icons2"/>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+
+<!-- Introduccion Final-->
+<section class="objetivos" id="objetivos">
+  <div class="section-title"><h2>Sistema de Optimización</h2></div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 col-12 order-1" data-aos="zoom-in" data-aos-delay="100" data-aos-easing="ease-in-out" data-aos-offset="200">
+      <div class="card text-center" >
+        <form id="file-form" method="post" enctype="multipart/form-data">
+        <div class="bg-image" >
+          <div id="dropzone">
+            <img src="static/img/upload.svg" class="upload-icon" id="upload"/>
+            <img src="static/img/upload-done.svg" class="upload-icon2" id="upload2" style="display:none"/>
+            <input type="file" class="upload-input" name="filename" id="filename" accept="xls/xlsx/csv" > </input>
+          </div>
+        </div>
+        <div class="card-body">
+          <input type="submit" class="btn btn-dark"  id="submit" name="submit" onclick="uploadFile()"></input>
+        </div>
+      </form>
+      </div>
+    </div>
+    <div class="col-lg-4 col-12 order-1" data-aos="zoom-in" data-aos-delay="100" data-aos-easing="ease-in-out" data-aos-offset="200">
+      <div class="card text-center">
+        <form method = "POST" id="run"> 
+        <div class="bg-image" >
+          <div id="dropzone">
+            <img src="static/img/optimize-start.svg" class="run-icon" id="run1"/>
+            <img src="static/img/rotation.gif" class="run-icon2" id="run2" style="display: none"/>
+            <img src="static/img/optimize-end.svg" class="run-icon" id="run3" style="display: none"/>
+            <!-- <input type="submit" class="run-input" onclick="rungif();" name="run" id="run" value=""> </input> -->
+          <!-- <img src="static/img/download-red.svg" class="download-icon" />
+          <input type = "submit" class="download-input" name="download" value = ""/> -->
+        </div>
+        </div>
+        <div class="card-body">
+          <input type="submit" class="btn btn-dark" onclick="rungif();" name="run" id="run" value="run"></input>
+        </div>  
+      </form>    
+      </div>
+    </div>
+    <div class="col-lg-4 col-12 order-1" data-aos="zoom-in" data-aos-delay="100" data-aos-easing="ease-in-out" data-aos-offset="200">
+      <div class="card text-center">
+        <form method = "POST" enctype="multipart/form-data"> 
+        <div class="bg-image">
+          <div id="dropzone">
+          <img src="static/img/download.svg" class="download-icon" id="download" />
+          <img src="static/img/download-done.svg" class="download-icon2" id="download2" style="display: none" />
+          <!-- <input type="submit" class="download-input" name="download" value="" > </input> -->
+          <!-- <img src="static/img/download-red.svg" class="download-icon" />
+          <input type = "submit" class="download-input" name="download" value = ""/> -->
+          
+        </div>
+        </div>
+        <div class="card-body">
+          <input type="submit" class="btn btn-dark" name="download" value="download" onclick="changedownload();"></input>
+        </div>  
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="logos" class="logos section-bg">
+  <div class="row" data-aos="zoom-in">
+    <div class="col-6  d-flex align-items-center justify-content-center">
+      <a href='https://www.globaldataquantum.com/es/inicio/'>
+        <img src="static/img/dataquantum-bueno.svg" class="img-fluid" id="dataquantum" alt=""></a>
+    </div>
+    <div class="col-6  d-flex align-items-center justify-content-center">
+      <a href='https://prezero.es/es/'>
+        <img src="https://prezero.es/wp-content/uploads/2021/11/logo-prezero2.svg" class="img-fluid" alt=""></a>
+    </div>
+  </div>
+</div>
+</section>
+<!--  Información Final -->
+<!--  ------Objetivos------ -->
+<p style="display:none" id="msg_up">{{msg_upload}}</p>
+<p style="display:none" id="msg_run">{{msg_run}}</p>
+<p style="display:none" id="msg_download">{{msg_download}}</p>
+<p style="display:none" id="upload_file">none</p>
+
+<footer class="pagina-footer">
+<p><a href="https://www.globaldataquantum.com/es/inicio/">Global Data Quantum </a></p>
+</footer>
+
+<!--  Objetivos Final -->
+<button type="button" class="btn btn-dark btn-floating btn-md" id="btn-back-to-top">
+  <i class="fa fa-arrow-up"></i>
+</button>
+
+<script>
+ async function uploadFile() {
+  var msg_up = document.getElementById('msg_up').innerText;
+  var msg_run = document.getElementById('msg_run').innerText;
+  var msg_download= document.getElementById('msg_download').innerText;
+  var upload_file = document.getElementById('upload_file').innerText;
+  console.log($('#filename').val());
+  console.log(upload_file);
+  if (upload_file==$('#filename').val() && msg_download=='true'){
+    let formData = new FormData(); 
+    formData.append("optimized", "");
+    event.preventDefault();
+    await fetch('/muebles', {
+      method: "POST", 
+      body: formData
+    }); 
+    Swal.fire({
+          title:'Routes have been optimized and downloaded. Optimization process finished.',
+          text:'',
+          icon:'info',
+          showConfirmButton: true,
+          confirmButtonText: 'OK',
+          // confirmButtonColor: '#3085d6',
+          // denyButtonColor: '#3085d6',
+          denyButtonText:'MAP',
+          showDenyButton: true,
+          customClass: {
+            confirmButton: 'btn btn-dark',
+            denyButton: 'btn btn-dark',
+          },
+        }).then(function(result) {
+          if (!result.value) {
+            window.location.href = '/muebles_map';
+          }
+      });
+    $('#upload').hide();
+    $('#upload2').show();
+    $('#run1').hide();
+    $('#run2').hide();
+    $('#run3').show();
+    $('#download').hide();
+    $('#download2').show();
+  }else if(upload_file==$('#filename').val() && msg_run=='true'){
+    let formData = new FormData(); 
+    formData.append("optimized", "");
+    event.preventDefault();
+    await fetch('/muebles', {
+      method: "POST", 
+      body: formData
+    }); 
+    Swal.fire({
+          title:'The file chosen has been already uploaded and routes have been optimized. Donwload the file or visualize it.',
+          text:'',
+          icon:'warning',
+          showConfirmButton: true,
+          confirmButtonText: 'OK',
+          // confirmButtonColor: '#3085d6',
+          // denyButtonColor: '#3085d6',
+          denyButtonText:'MAP',
+          showDenyButton: true,
+          customClass: {
+            confirmButton: 'btn btn-dark',
+            denyButton: 'btn btn-dark',
+          },
+        }).then(function(result) {
+          if (!result.value) {
+            window.location.href = '/muebles_map';
+          }
+      });
+    $('#upload').hide();
+    $('#upload2').show();
+    $('#run1').hide();
+    $('#run2').hide();
+    $('#run3').show();
+    $('#download').show();
+    $('#download2').hide();
+  }else if(upload_file==$('#filename').val() && msg_up=='true'){
+    let formData = new FormData(); 
+    formData.append("filename", "error");
+    event.preventDefault();
+    await fetch('/muebles', {
+      method: "POST", 
+      body: formData
+    }); 
+    Swal.fire(
+        'The file has been already uploaded!',
+        '',
+        'warning'
+      )
+    $('#upload').hide();
+    $('#upload2').show();
+    $('#run1').show();
+    $('#run2').hide();
+    $('#run3').hide();
+    $('#download').show();
+    $('#download2').hide();
+  }else if(upload_file!=$('#filename').val() && $('#filename').val()!=''){
+    let formData = new FormData(); 
+    formData.append("filename", filename.files[0]);
+    event.preventDefault();
+    var msg_up = document.getElementById('msg_up');
+    var msg_run = document.getElementById('msg_run');
+    var msg_download= document.getElementById('msg_download');
+    msg_up.innerText = true;
+    msg_run.innerText = false;
+    msg_download.innerText = false;
+    var upload_file = document.getElementById('upload_file');
+    upload_file.innerText = $('#filename').val();
+    await fetch('/muebles', {
+      method: "POST", 
+      body: formData
+    }); 
+    Swal.fire(
+          'Uploaded Succesfully!',
+          '',
+          'success'
+        );
+    $('#upload').hide();
+    $('#upload2').show();
+    $('#run1').show();
+    $('#run2').hide();
+    $('#run3').hide();
+    $('#download').show();
+    $('#download2').hide();
+  }else if($('#filename').val()==''){
+    let formData = new FormData(); 
+    formData.append("filename", 'error');
+    event.preventDefault();
+    await fetch('/muebles', {
+      method: "POST", 
+      body: formData
+    }); 
+    Swal.fire(
+          'No file selected. Select a file, please!',
+          '',
+          'error'
+        );
+    $('#upload').show();
+    $('#upload2').hide();
+    $('#run1').show();
+    $('#run2').hide();
+    $('#run3').hide();
+    $('#download').show();
+    $('#download2').hide();
+
+  }
+};
+</script>
+
+<script type="text/javascript">
+  async function rungif() {
+    var msg_up = document.getElementById('msg_up').innerText;
+    var msg_run = document.getElementById('msg_run').innerText;
+    var msg_download= document.getElementById('msg_download').innerText;
+    console.log(msg_up);
+    if (msg_download != "true"){
+      if (msg_up != "true"){
+        let formData = new FormData(); 
+        formData.append("optimized", "");
+        event.preventDefault();
+        await fetch('/muebles', {
+          method: "POST", 
+          body: formData
+        }); 
+        Swal.fire(
+          'Please upload a file first!',
+          '',
+          'error'
+        );
+      }else if (msg_run=='true'){
+        let formData = new FormData(); 
+        formData.append("optimized", "");
+        event.preventDefault();
+        await fetch('/muebles', {
+          method: "POST", 
+          body: formData
+        }); 
+        Swal.fire({
+          title:'File uploaded and routes optimized. Download the routes file or visualize.',
+          text:'',
+          icon:'warning',
+          showConfirmButton: true,
+          confirmButtonText: 'OK',
+          // confirmButtonColor: '#3085d6',
+          // denyButtonColor: '#3085d6',
+          denyButtonText:'MAP',
+          showDenyButton: true,
+          customClass: {
+            confirmButton: 'btn btn-dark',
+            denyButton: 'btn btn-dark',
+          },
+        }).then(function(result) {
+          if (!result.value) {
+            window.location.href = '/muebles_map';
+          }
+      });    
+      }else{
+        let formData = new FormData(); 
+        formData.append("run", '');
+        event.preventDefault();
+        $('#run1').hide();
+        $('#run3').hide();
+        $('#run2').show();
+        var msg_run = document.getElementById('msg_run');
+        msg_run.innerText = true;
+        await fetch('/muebles', {
+          method: "POST", 
+          body: formData,
+        })      // .then(data => {
+        //   if (data.success) {
+        //       window.location.href = '/muebles_map';}
+        //   }); 
+        
+        
+        $('#run2').hide();
+        $('#run3').show();
+
+        Swal.fire({
+          title:'Routes optimized succesfully!',
+          text:'',
+          icon:'success',
+          showConfirmButton: true,
+          confirmButtonText: 'OK',
+          // confirmButtonColor: '#3085d6',
+          // denyButtonColor: '#3085d6',
+          denyButtonText:'MAP',
+          showDenyButton: true,
+          customClass: {
+            confirmButton: 'btn btn-dark',
+            denyButton: 'btn btn-dark',
+          },
+        }).then(function(result) {
+          if (!result.value) {
+            window.location.href = '/muebles_map';
+          }
+      });        
+      } 
+  }else{
+    let formData = new FormData(); 
+    formData.append("optimized", "");
+    event.preventDefault();
+    await fetch('/muebles', {
+      method: "POST", 
+      body: formData
+    }); 
+    Swal.fire({
+          title:'Routes have been optimized and downloaded. Optimization process finished.',
+          text:'',
+          icon:'info',
+          showConfirmButton: true,
+          confirmButtonText: 'OK',
+          // confirmButtonColor: '#3085d6',
+          // denyButtonColor: '#3085d6',
+          denyButtonText:'MAP',
+          showDenyButton: true,
+          customClass: {
+            confirmButton: 'btn btn-dark',
+            denyButton: 'btn btn-dark',
+          },
+        }).then(function(result) {
+          if (!result.value) {
+            window.location.href = '/muebles_map';
+          }
+      });
+    $('#upload').hide();
+    $('#upload2').show();
+    $('#run1').hide();
+    $('#run2').hide();
+    $('#run3').show();
+    $('#download').hide();
+    $('#download2').show();
+  }
+};
+  
+</script>
+
+<script type="text/javascript">
+  async function changedownload() {
+    var msg_up = document.getElementById('msg_up').innerText;
+    var msg_run = document.getElementById('msg_run').innerText;
+    var msg_download= document.getElementById('msg_download').innerText;
+    console.log(msg_up);
+    if (msg_download != "true"){
+      if (msg_up != "true"){
+        let formData = new FormData(); 
+        formData.append("download", "error");
+        event.preventDefault();
+        await fetch('/muebles', {
+          method: "POST", 
+          body: formData
+        }); 
+        Swal.fire(
+          'Please upload a file first, and then run the optimizer!',
+          '',
+          'error'
+        );
+      }else if (msg_run != "true"){
+        let formData = new FormData(); 
+        formData.append("download", "error");
+        event.preventDefault();
+        await fetch('/muebles', {
+          method: "POST", 
+          body: formData
+        }); 
+        Swal.fire(
+          'The file is uploaded, but the optimizer has not been run. Please, run the optimizer!',
+          '',
+          'error'
+        );
+      }else{
+      var msg_download = document.getElementById('msg_download');
+      msg_download.innerText = true;
+      let formData = new FormData(); 
+      formData.append("download", 'download');
+      await fetch('/muebles', {
+        method: "POST", 
+        body: formData
+      }); 
+      $('#download').hide();
+      $('#download2').show();
+      };
+    }else{
+      let formData = new FormData(); 
+    formData.append("optimized", "");
+    event.preventDefault();
+    await fetch('/muebles', {
+      method: "POST", 
+      body: formData
+    }); 
+    Swal.fire({
+          title:'Routes have been optimized and downloaded. Optimization process finished.',
+          text:'',
+          icon:'info',
+          showConfirmButton: true,
+          confirmButtonText: 'OK',
+          // confirmButtonColor: '#3085d6',
+          // denyButtonColor: '#3085d6',
+          denyButtonText:'MAP',
+          showDenyButton: true,
+          customClass: {
+            confirmButton: 'btn btn-dark',
+            denyButton: 'btn btn-dark',
+          },
+        }).then(function(result) {
+          if (!result.value) {
+            window.location.href = '/muebles_map';
+          }
+      });
+    $('#upload').hide();
+    $('#upload2').show();
+    $('#run1').hide();
+    $('#run2').hide();
+    $('#run3').show();
+    $('#download').hide();
+    $('#download2').show();
+    }
+  };
+  
+</script>
+
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="static/js/scroll.js"></script>
+<script src="static/js/script.js"></script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+<script
+type="text/javascript"
+src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"></script>
+</body>
+   <!-- <body>
+      <form  method = "POST" enctype=multipart/form-data>
+        <br>
+        <input type="file" name="filename" >
+          <input type="submit">
+        <br>
+
+        <input type = "submit" name="action" value = "download" />
+        <br>
+        <img src="{{ url_for('static', filename = 'dataquantum.png') }}"><img>
+      </form>
+   </body> -->
+</html>
