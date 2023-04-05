@@ -86,90 +86,90 @@ def principal():
 #     print(os.path.exists(os.path.join(app.config["UPLOAD_FOLDER"], name)))
 #     return send_from_directory(app.config["UPLOAD_FOLDER"], name, as_attachment=True)
 
-@app.route('/register', methods=['POST','GET'])
-def register():
-    global user_message
-    if request.method=='POST':
-        con = sql.connect("database.db")
-        con.row_factory = sql.Row
-        cur = con.cursor()
-        cur.execute("select * from usuarios")
-        rows_reservas = cur.fetchall();
-        contador = [row for row in rows_reservas]
-        con.close()
-        if len(contador)<2:
-            try:
-                if request.form['login_action']=='Regístrate':
-                    return render_template('register.html')
-            except:
-                try:
-                    username=request.form['username']
-                    password=request.form['password']
-                    confirm_password=request.form['confirm_password']
-                    email=request.form['email']
-                    msg1='-Username: Tipo texto.'
-                    msg2='-Password: Tipo texto.'
-                    msg3='-Confirm password: Tipo texto. Tiene que coincidir con el campo password.'
-                    msg4='-Email: Tipo texto. Ejemplo:servidor@gmail.com.'
+# @app.route('/register', methods=['POST','GET'])
+# def register():
+#     global user_message
+#     if request.method=='POST':
+#         con = sql.connect("database.db")
+#         con.row_factory = sql.Row
+#         cur = con.cursor()
+#         cur.execute("select * from usuarios")
+#         rows_reservas = cur.fetchall();
+#         contador = [row for row in rows_reservas]
+#         con.close()
+#         if len(contador)<2:
+#             try:
+#                 if request.form['login_action']=='Regístrate':
+#                     return render_template('register.html')
+#             except:
+#                 try:
+#                     username=request.form['username']
+#                     password=request.form['password']
+#                     confirm_password=request.form['confirm_password']
+#                     email=request.form['email']
+#                     msg1='-Username: Tipo texto.'
+#                     msg2='-Password: Tipo texto.'
+#                     msg3='-Confirm password: Tipo texto. Tiene que coincidir con el campo password.'
+#                     msg4='-Email: Tipo texto. Ejemplo:servidor@gmail.com.'
 
-                    con = sql.connect("database.db")
-                    con.row_factory = sql.Row
-                    cur = con.cursor()
-                    cur.execute("select * from usuarios")
-                    rows_reservas = cur.fetchall();
-                    con.close()
-                    if rows_reservas!=[]:
-                        username_password = {}
-                        for row in rows_reservas:
-                            username_password[row['username']] = row['password']
+#                     con = sql.connect("database.db")
+#                     con.row_factory = sql.Row
+#                     cur = con.cursor()
+#                     cur.execute("select * from usuarios")
+#                     rows_reservas = cur.fetchall();
+#                     con.close()
+#                     if rows_reservas!=[]:
+#                         username_password = {}
+#                         for row in rows_reservas:
+#                             username_password[row['username']] = row['password']
                         
-                        if username in list(username_password.keys()):
-                            msg='El usuario introducido ya existe. Por favor, introduzca otro usuario.'
-                            return render_template('register.html',msg=msg)
-                        elif password in list(username_password.values()):
-                            msg='La contraseña introducida ya ha sido utilizada por otra persona. Por favor, introduzca otra contraseña.'
-                            return render_template('register.html',msg=msg)
-                        else:
-                            pass
-                    if len(password)!=8:
-                        msg='La contraseña debe tener 8 caracteres. Por favor, inténtelo de nuevo.'
-                        return render_template('register.html',msg=msg)
-                    if password!=confirm_password:
-                        msg='Las contraseñas no coinciden. Por favor, inténtelo de nuevo.'
-                        return render_template('register.html',msg=msg)
-                    if ('@' in email):
-                        con = sql.connect('database.db')
-                        cur = con.cursor()
-                        try:
-                            # print('here')
-                            result=request.form
-                            cur.execute("INSERT INTO usuarios (username, password, confirm_password, email) VALUES (?,?,?,?)",(username, password, confirm_password, email))
-                            con.commit()
-                            msg = 'Los datos se han introducido con éxito!'
-                            return render_template('login.html', msg=msg)
-                        except:
-                            con.rollback()
-                            msg = 'Los datos no se han introducido correctamente. Cada campo introducido debe tener las siguientes características:'
-                            return render_template('register.html', msg=msg,msg1=msg1,msg2=msg2,msg3=msg3,msg4=msg4)
-                        finally:
-                            con.close()
-                    else:
-                        msg = 'Los datos no se han introducido correctamente. Cada campo introducido deb tener las siguientes características:'
-                        return render_template('register.html', msg=msg,msg1=msg1,msg2=msg2,msg3=msg3,msg4=msg4)
-                except:
-                    try:
-                        if request.form['login_action']=='Register':
-                            return render_template('register.html')
-                    except:
-                        return render_template('login.html')
+#                         if username in list(username_password.keys()):
+#                             msg='El usuario introducido ya existe. Por favor, introduzca otro usuario.'
+#                             return render_template('register.html',msg=msg)
+#                         elif password in list(username_password.values()):
+#                             msg='La contraseña introducida ya ha sido utilizada por otra persona. Por favor, introduzca otra contraseña.'
+#                             return render_template('register.html',msg=msg)
+#                         else:
+#                             pass
+#                     if len(password)!=8:
+#                         msg='La contraseña debe tener 8 caracteres. Por favor, inténtelo de nuevo.'
+#                         return render_template('register.html',msg=msg)
+#                     if password!=confirm_password:
+#                         msg='Las contraseñas no coinciden. Por favor, inténtelo de nuevo.'
+#                         return render_template('register.html',msg=msg)
+#                     if ('@' in email):
+#                         con = sql.connect('database.db')
+#                         cur = con.cursor()
+#                         try:
+#                             # print('here')
+#                             result=request.form
+#                             cur.execute("INSERT INTO usuarios (username, password, confirm_password, email) VALUES (?,?,?,?)",(username, password, confirm_password, email))
+#                             con.commit()
+#                             msg = 'Los datos se han introducido con éxito!'
+#                             return render_template('login.html', msg=msg)
+#                         except:
+#                             con.rollback()
+#                             msg = 'Los datos no se han introducido correctamente. Cada campo introducido debe tener las siguientes características:'
+#                             return render_template('register.html', msg=msg,msg1=msg1,msg2=msg2,msg3=msg3,msg4=msg4)
+#                         finally:
+#                             con.close()
+#                     else:
+#                         msg = 'Los datos no se han introducido correctamente. Cada campo introducido deb tener las siguientes características:'
+#                         return render_template('register.html', msg=msg,msg1=msg1,msg2=msg2,msg3=msg3,msg4=msg4)
+#                 except:
+#                     try:
+#                         if request.form['login_action']=='Register':
+#                             return render_template('register.html')
+#                     except:
+#                         return render_template('login.html')
 
-        else:
-            try:
-                if request.form['login_action']=='Regístrate':	
-                    user_message = 'user_created'
-                    return redirect(url_for('login')) 
-            except:
-                return render_template('login.html')
+#         else:
+#             try:
+#                 if request.form['login_action']=='Regístrate':	
+#                     user_message = 'user_created'
+#                     return redirect(url_for('login')) 
+#             except:
+#                 return render_template('login.html')
 
     
 # @app.route('/muebles', methods=['POST','GET'])
