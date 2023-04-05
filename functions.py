@@ -203,7 +203,7 @@ def get_lat_long_osm(address):
     return {'lat':addr_geocoded[new_adresses_dict[addresses_mod_dict[x]]][0],'lng':addr_geocoded[new_adresses_dict[addresses_mod_dict[x]]][1]}
 
 
-def get_geocode(file_dir_name, tipo, directory='../PREZERO/datos/', test = False):
+def get_geocode(file_dir_name, tipo, directory='datos/', test = False):
 
     if 'sp.pkl' in os.listdir('SavedData/'):
         sp = pickle.load(open('SavedData/sp.pkl','rb'))
@@ -398,7 +398,7 @@ def get_matrix_from_coordinates(coordinates, addresses, recalculate = False, use
                 time.sleep(5)
     distance_matrix = distance_matrix.tolist()
     distance_matrix = [[np.round(y).astype(int) for y in x] for x in distance_matrix]
-    if not os.path.isfile('../SavedData/saved_matrixes.pickle'):
+    if not os.path.isfile('SavedData/saved_matrixes.pickle'):
         d = {}
         pickle.dump(d,open(filename,'wb'))
     d = pickle.load(open(filename,'rb'))
