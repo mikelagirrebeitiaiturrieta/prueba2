@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
-# from main import main
+from main import *
 import sqlite3 as sql
 import os
 import time
 import json
 app = Flask(__name__)
-# config = json.load(open('config.json','rb'))
+config = json.load(open('config.json','rb'))
 # app.config['UPLOAD_FOLDER'] = config['upload_folder']
 
 access=False

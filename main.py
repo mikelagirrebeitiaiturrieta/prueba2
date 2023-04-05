@@ -1,10 +1,7 @@
 import os.path
 import pandas as pd
 import functions as ft
-import json
 import os
-import pickle
-import numpy as np
 from bounding_boxes import *
 from test import *
 
@@ -16,19 +13,17 @@ elec_1_1 = ft.geocode_to_polygon(elec_1)
 elec_2_1 = ft.geocode_to_polygon(elec_2)
 
 def main(config, file, tipo):
-    workdir = config['workdir']
     upload_folder = config['upload_folder']
-    datadir = config['datadir']
+    # datadir = config['datadir']
     templatesdir = config['templatesdir']
-    filename = config['filename']
-    filepath = os.path.join(datadir,file)
+    filepath = os.path.join(upload_folder,file)
 
     base = {"lat":43.35091, "lng": -8.43284}
     unload = {"lat":43.35622, "lng": -8.45764}
     endings = {'muebles':[{'lat':43.36722825763309, 'lng':-8.407918317317424},{'lat':43.35507941519058, 'lng':-8.40410800474373}], 'electrodomesticos':[{'lat':43.37411501888933, 'lng':-8.437384493837364}]}
 
     # print(filepath)
-    data = ft.get_geocode(file_dir_name=filepath, tipo = tipo,directory=datadir, test=True)
+    data = ft.get_geocode(file_dir_name=filepath, tipo = tipo,directory=upload_folder, test=True)
     if tipo=='muebles':
         clusters = ft.clusterize_prezero(data, [[lista1_1_1, lista1_2_1], [lista2_1_1, lista2_2_1]])
     else:
@@ -82,8 +77,8 @@ def main(config, file, tipo):
 
 
     # map_save_path = tipo + '_map_base.html'
-    map_save_path = file[:-5]+'_'+tipo + '_map_global.html'
-    map_save_path = os.path.join(workdir, map_save_path)
+    map_save_path = tipo + '_map_base.html'
+    map_save_path = os.path.join(templatesdir, map_save_path)
     ft.create_map(coordinates_list=coordinates_routes,
                 address_list=[['start']+x+['end'] for x in address_routes],
                 type = tipo,
@@ -109,7 +104,7 @@ def main(config, file, tipo):
 
 
 
-config = json.load(open('config.json','rb'))
+# config = json.load(open('config.json','rb'))
 
 # main(config=config, file=config['filename'], tipo='electrodomesticos')
 
