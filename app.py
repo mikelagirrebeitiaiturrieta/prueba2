@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 # from main import main
 import sqlite3 as sql
 import os
@@ -81,10 +81,10 @@ def principal():
         
 
 
-# @app.route('/uploads/<name>', methods=['GET', 'POST'])
-# def download_file(name):
-#     print(os.path.exists(os.path.join(app.config["UPLOAD_FOLDER"], name)))
-#     return send_from_directory(app.config["UPLOAD_FOLDER"], name, as_attachment=True)
+@app.route('/uploads/<name>', methods=['GET', 'POST'])
+def download_file(name):
+    # print(os.path.exists(os.path.join(app.config["UPLOAD_FOLDER"], name)))
+    return send_from_directory(app.config["UPLOAD_FOLDER"], name, as_attachment=True)
 
 @app.route('/register', methods=['POST','GET'])
 def register():
@@ -272,13 +272,13 @@ def electrodomesticos():
                     if request.files.get("filename"):
                         file = request.files.get("filename")
                         file.filename = 'electrodomesticos_routes.xls'
-                        if os.path.exists(app.config['UPLOAD_FOLDER']):
-                            files = os.listdir(app.config['UPLOAD_FOLDER'])
-                            [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'electrodomesticos_routes.xls' in file]
-                            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-                        else:
-                            os.makedirs(app.config['UPLOAD_FOLDER'])
-                            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+                        # if os.path.exists(app.config['UPLOAD_FOLDER']):
+                        #     files = os.listdir(app.config['UPLOAD_FOLDER'])
+                        #     [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'electrodomesticos_routes.xls' in file]
+                        #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+                        # else:
+                        #     os.makedirs(app.config['UPLOAD_FOLDER'])
+                        #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
                         access=True
                         return redirect(url_for('electrodomesticos'))
             except:
@@ -287,8 +287,8 @@ def electrodomesticos():
                 if (request.form['run']=='error'):
                     return redirect(url_for('electrodomesticos'))
                 elif (request.form['run']==''):
-                    list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
-                    last_file = [file for file in list_dir if 'electrodomesticos_routes.xls' in file][-1]
+                    # list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
+                    # last_file = [file for file in list_dir if 'electrodomesticos_routes.xls' in file][-1]
                     # file = os.listdir(app.config['UPLOAD_FOLDER'])
                     # [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'm' in file]
                     # main(path=os.path.join(app.config['UPLOAD_FOLDER'], file), num_vehicles=1)
