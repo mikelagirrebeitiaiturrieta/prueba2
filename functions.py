@@ -11,16 +11,13 @@ import openrouteservice as ors
 import pickle
 import time
 from geopy.geocoders import Nominatim 
-from IPython.display import clear_output
 from spellchecker import SpellChecker
 from nltk.corpus import stopwords
-from geopy.distance import geodesic
 from collections import Counter
 import numpy as np
 import pandas as pd
-from sklearn.cluster import SpectralClustering, KMeans
+from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
-from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 from bounding_boxes import *
 import json
@@ -32,7 +29,7 @@ client = ors.Client(key=ors_key)
 API_key = 'AIzaSyACG6EutbA0rKDpZA_Ny5vquytD2THwUks'
 api_distance_matrix =  'Au4AJmZEHNaKt5qU6qpxp5DazATW6' #'o0m7tdE0dwHQE14hsacTnDjzYFOFC'
 
-config = json.load(open('./config.json','rb'))
+config = json.load(open('config.json','rb'))
 sp = stopwords.words('spanish')
 spanish = SpellChecker(language='es')
 locator = Nominatim(user_agent='myGeocoder')
