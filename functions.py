@@ -22,24 +22,24 @@ from shapely.geometry.polygon import Polygon
 from bounding_boxes import *
 import json
 from test import get_add_from_file
-sp = stopwords.words
-ors_key = "5b3ce3597851110001cf624847c29f8864ce433699208e1c6c1cb793"
-client = ors.Client(key=ors_key)
-# API_key = 'AIzaSyCcb-HIYqA-N4JhPP-zlIe_onpgxgFn9rI'
-API_key = 'AIzaSyACG6EutbA0rKDpZA_Ny5vquytD2THwUks'
-api_distance_matrix =  'Au4AJmZEHNaKt5qU6qpxp5DazATW6' #'o0m7tdE0dwHQE14hsacTnDjzYFOFC'
+# sp = stopwords.words
+# ors_key = "5b3ce3597851110001cf624847c29f8864ce433699208e1c6c1cb793"
+# client = ors.Client(key=ors_key)
+# # API_key = 'AIzaSyCcb-HIYqA-N4JhPP-zlIe_onpgxgFn9rI'
+# API_key = 'AIzaSyACG6EutbA0rKDpZA_Ny5vquytD2THwUks'
+# api_distance_matrix =  'Au4AJmZEHNaKt5qU6qpxp5DazATW6' #'o0m7tdE0dwHQE14hsacTnDjzYFOFC'
 
-config = json.load(open('config.json','rb'))
-sp = stopwords.words('spanish')
-spanish = SpellChecker(language='es')
-locator = Nominatim(user_agent='myGeocoder')
+# config = json.load(open('config.json','rb'))
+# sp = stopwords.words('spanish')
+# spanish = SpellChecker(language='es')
+# locator = Nominatim(user_agent='myGeocoder')
 
-centro_coruña = [43.3713500, -8.3960000]
-coruña_limits = locator.geocode('A Coruña, Galicia, España',timeout = 100, language='es').raw['boundingbox']
-box = [[float(coruña_limits[0]), float(coruña_limits[2])], [float(coruña_limits[1]), float(coruña_limits[3])]]
-coruña_limits = locator.geocode('A Coruña, Galicia, España',timeout = 100, language='es').raw['boundingbox']
-bounds = f'{coruña_limits[0]},{coruña_limits[1]}%7C{coruña_limits[2]},{coruña_limits[3]}' 
-coruña_postcodes = [str(v) for v in list(range(15000,15012))+[15170,15190,15191,15192]]
+# centro_coruña = [43.3713500, -8.3960000]
+# coruña_limits = locator.geocode('A Coruña, Galicia, España',timeout = 100, language='es').raw['boundingbox']
+# box = [[float(coruña_limits[0]), float(coruña_limits[2])], [float(coruña_limits[1]), float(coruña_limits[3])]]
+# coruña_limits = locator.geocode('A Coruña, Galicia, España',timeout = 100, language='es').raw['boundingbox']
+# bounds = f'{coruña_limits[0]},{coruña_limits[1]}%7C{coruña_limits[2]},{coruña_limits[3]}' 
+# coruña_postcodes = [str(v) for v in list(range(15000,15012))+[15170,15190,15191,15192]]
 
 # def get_lat_long_google(address): 
 #     url = f'https://maps.googleapis.com/maps/api/geocode/json?address={address}&bounds={bounds}&key={API_key}' 
