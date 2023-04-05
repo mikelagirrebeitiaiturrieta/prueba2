@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from main import main
+# from main import main
 import sqlite3 as sql
 import os
 import time
@@ -8,7 +8,7 @@ app = Flask(__name__)
 # config = json.load(open('config.json','rb'))
 # app.config['UPLOAD_FOLDER'] = config['upload_folder']
 
-access=True
+access=False
 mueble=''
 electrodomestico = ''
 user_message=''
@@ -197,7 +197,7 @@ def muebles():
                         # else:
                         #     os.makedirs(app.config['UPLOAD_FOLDER'])
                         #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-                        print('su')
+                        # print('su')
                         access=True
                         return redirect(url_for('muebles'))
             except:
@@ -216,7 +216,7 @@ def muebles():
                     # main(config=config, file=last_file, type='muebles')
                     access=True
                     time.sleep(1)
-                    print('hello')
+                    # print('hello')
                     return render_template('muebles.html')
             except:
                 pass

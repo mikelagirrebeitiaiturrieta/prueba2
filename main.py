@@ -109,7 +109,7 @@ def main(config, file, tipo):
 
 
 
-config = json.load(open('./config.json','rb'))
+config = json.load(open('config.json','rb'))
 
 # main(config=config, file=config['filename'], tipo='electrodomesticos')
 
