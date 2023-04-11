@@ -23,7 +23,7 @@ from bounding_boxes import *
 import json
 from test import get_add_from_file
 sp = stopwords.words
-ors_key = "5b3ce3597851110001cf624847c29f8864ce433699208e1c6c1cb793"
+# ors_key = "5b3ce3597851110001cf624847c29f8864ce433699208e1c6c1cb793"
 # client = ors.Client(key=ors_key)
 # API_key = 'AIzaSyCcb-HIYqA-N4JhPP-zlIe_onpgxgFn9rI'
 # API_key = 'AIzaSyACG6EutbA0rKDpZA_Ny5vquytD2THwUks'
