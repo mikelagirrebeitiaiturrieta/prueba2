@@ -187,7 +187,7 @@
       body: formData
     }); 
     Swal.fire({
-          title:'Routes have been optimized and downloaded. Optimization process finished.',
+          title:'Las rutas han sido optimizadas y descargadas. Proceso de optimización finalizado.',
           text:'',
           icon:'info',
           showConfirmButton: true,
@@ -221,7 +221,7 @@
       body: formData
     }); 
     Swal.fire({
-          title:'The file chosen has been already uploaded and routes have been optimized. Donwload the file or visualize it.',
+          title:'El archivo seleccionado ha sido previamente cargado y las rutas han sido optimizadas. Descarga el archivo con las rutas ordenadas o visualiza el mapa.',
           text:'',
           icon:'warning',
           showConfirmButton: true,
@@ -255,7 +255,7 @@
       body: formData
     }); 
     Swal.fire(
-        'The file has been already uploaded!',
+        'El archivo ya ha sido cargado!',
         '',
         'warning'
       )
@@ -266,7 +266,7 @@
     $('#run3').hide();
     $('#download').show();
     $('#download2').hide();
-  }else if(upload_file!=$('#filename').val() && $('#filename').val()!=''){
+  }else if(upload_file!=$('#filename').val() && $('#filename').val().toLowerCase().includes('elec')){
     let formData = new FormData(); 
     formData.append("filename", filename.files[0]);
     event.preventDefault();
@@ -283,7 +283,7 @@
       body: formData
     }); 
     Swal.fire(
-          'Uploaded Succesfully!',
+          'Archivo cargado con éxito!',
           '',
           'success'
         );
@@ -294,7 +294,7 @@
     $('#run3').hide();
     $('#download').show();
     $('#download2').hide();
-  }else if($('#filename').val()==''){
+  }else if($('#filename').val().toLowerCase().includes('elec')==false){
     let formData = new FormData(); 
     formData.append("filename", 'error');
     event.preventDefault();
@@ -303,7 +303,7 @@
       body: formData
     }); 
     Swal.fire(
-          'No file selected. Select a file, please!',
+          'El archivo seleccionado no es de electrodomésticos. Seleccione el archivo correcto, por favor!',
           '',
           'error'
         );
@@ -335,7 +335,7 @@
           body: formData
         }); 
         Swal.fire(
-          'Please upload a file first!',
+          'Por favor, carga primero el archivo correcto!',
           '',
           'error'
         );
@@ -348,7 +348,7 @@
           body: formData
         }); 
         Swal.fire({
-          title:'File uploaded and routes optimized. Download the routes file or visualize.',
+          title:'Archivo cargado y rutas optimizadas. Descarga el archivo con las rutas ordenadas o visualiza el mapa.',
           text:'',
           icon:'warning',
           showConfirmButton: true,
@@ -388,7 +388,7 @@
         $('#run3').show();
 
         Swal.fire({
-          title:'Routes optimized succesfully!',
+          title:'Rutas optimizadas con éxito!',
           text:'',
           icon:'success',
           showConfirmButton: true,
@@ -416,7 +416,7 @@
       body: formData
     }); 
     Swal.fire({
-          title:'Routes have been optimized and downloaded. Optimization process finished.',
+          title:'Las rutas han sido optimizadas y descargadas. Proceso de optimización finalizado.',
           text:'',
           icon:'info',
           showConfirmButton: true,
@@ -462,7 +462,7 @@
           body: formData
         }); 
         Swal.fire(
-          'Please upload a file first, and then run the optimizer!',
+          'Por favor, carga primero el archivo correcto y después pulsa el boton run para optimizar las rutas!',
           '',
           'error'
         );
@@ -475,7 +475,7 @@
           body: formData
         }); 
         Swal.fire(
-          'The file is uploaded, but the optimizer has not been run. Please, run the optimizer!',
+          'El archivo ha sido cargado, bpero el optimizador no se ha puesto en marcha. Por favor, pulsa el botón run para iniciar el proceso de optimización!',
           '',
           'error'
         );
@@ -500,7 +500,7 @@
       body: formData
     }); 
     Swal.fire({
-          title:'Routes have been optimized and downloaded. Optimization process finished.',
+          title:'Las rutas han sido optimizadas y descargadas. Proceso de optimización finalizado.',
           text:'',
           icon:'info',
           showConfirmButton: true,
