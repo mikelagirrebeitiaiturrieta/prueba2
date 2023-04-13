@@ -4,12 +4,12 @@ import os
 from bounding_boxes import *
 from test import *
 
-# lista1_1_1 = ft.geocode_to_polygon(lista1_1)
-# lista1_2_1 = ft.geocode_to_polygon(lista1_2)
-# lista2_1_1 = ft.geocode_to_polygon(lista2_1)
-# lista2_2_1 = ft.geocode_to_polygon(lista2_2)
-# elec_1_1 = ft.geocode_to_polygon(elec_1)
-# elec_2_1 = ft.geocode_to_polygon(elec_2)
+lista1_1_1 = ft.geocode_to_polygon(lista1_1)
+lista1_2_1 = ft.geocode_to_polygon(lista1_2)
+lista2_1_1 = ft.geocode_to_polygon(lista2_1)
+lista2_2_1 = ft.geocode_to_polygon(lista2_2)
+elec_1_1 = ft.geocode_to_polygon(elec_1)
+elec_2_1 = ft.geocode_to_polygon(elec_2)
 
 # def main(config, file, tipo):
 #     upload_folder = config['upload_folder']
