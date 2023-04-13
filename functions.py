@@ -41,163 +41,163 @@ coruña_limits = locator.geocode('A Coruña, Galicia, España',timeout = 100, la
 bounds = f'{coruña_limits[0]},{coruña_limits[1]}%7C{coruña_limits[2]},{coruña_limits[3]}' 
 coruña_postcodes = [str(v) for v in list(range(15000,15012))+[15170,15190,15191,15192]]
 
-# def get_lat_long_google(address): 
-#     url = f'https://maps.googleapis.com/maps/api/geocode/json?address={address}&bounds={bounds}&key={API_key}' 
-#     response = requests.get(url) 
-#     resp_json_payload = response.json() 
-#     return(resp_json_payload['results'][0]['geometry']['location']), resp_json_payload['results'][0]['address_components'][-1]['long_name']
+def get_lat_long_google(address): 
+    url = f'https://maps.googleapis.com/maps/api/geocode/json?address={address}&bounds={bounds}&key={API_key}' 
+    response = requests.get(url) 
+    resp_json_payload = response.json() 
+    return(resp_json_payload['results'][0]['geometry']['location']), resp_json_payload['results'][0]['address_components'][-1]['long_name']
 
-# def get_lat_long_osm(address):
-#     x = address
-#     addresses_mod_dict = {x:(re.split(r'\d+',x)[0], '' if re.findall(r'\d+',x)==[] else re.findall(r'\d+',x)[0])}
-#     addresses_mod = list(addresses_mod_dict.values())
-#     new_adresses_dict = {addresses_mod[i]:re.sub(r"\bTrav\b", "Travesia",re.sub(r"\bA Milton\b", "Archer Milton",re.sub(r"\bFraga do Eume\b","Fraga", \
-#         re.sub(r"\bCrta. \b","Carretera ",re.sub(r"\bVales Villamartín\b","Vales Villamarín",re.sub(r"\bOzán\b","Orzán",re.sub(r"\bJ Sebastián\b","Juan Sebastián", \
-#         re.sub(r"\bJosé L\b","Jose Luis",re.sub(r"\bLuciano Y\b","Luciano Yordi",re.sub(r"\bFdez\b","Fernandez", \
-#         re.sub(r"\bRua A. \b","",re.sub(r"\bRua A. Sanjurjo de Carricarte\b","Sanjurjo Carricarte",re.sub(r"\bPlg.\b","Poligono ", \
-#         re.sub(r"\bFco\b","Francisco",re.sub(r"\bP. Barrié la Maza\b","Pedro Barrié la Maza",re.sub(r"\bJosé Mara Hernansáez\b","José Maria Hernansáez", \
-#         re.sub(r"\bGrupo de Viviendas Nuestra Señora del Carmen\b","Grupo de Vivendas Nosa Señora do Carme",re.sub(r"\bOza\b","de Oza", re.sub(r"\bel Cano\b","Elcano", \
-#         re.sub(r"\bBoquete\b","Boquete de",re.sub(r"\bPintor Vilar\b","Pintor Villar",re.sub(r"\bLuis Peña Nova\b","Luis Peña Novo",re.sub(r"\bEnrique Mariño\b","Enrique Mariñas", \
-#         re.sub(r"\bAvenida Concordia\b","Concordia", re.sub(r"\bJoaquín Cotarelo Martínez\b","Doctor Joaquín Cotarelo",re.sub(r"\bJubias\b","Xubias",re.sub(r"\bSanmartín\b","San Martín", \
-#         re.sub(r"\bherrería\b","herrerías",re.sub(r"\bSegunda\b","",re.sub(r"\bAboage\b","Amboage",re.sub(r"\bIlla\b","Illas",re.sub(r"\bPascoas\b","Pascoaes",re.sub(r"\bpascuas\b","Pascoaes", \
-#         re.sub(r"\bCalla\b","Rua",re.sub(r"\barresto\b","Armesto",re.sub(r"\bRonde\b","Ronda",re.sub(r"\bRúa\b",'Rua',re.sub(r"\bCale\b",'Rua',re.sub(r"\bCalle\b",'Rua', \
-#         (' '.join([addresses_mod[i][0].split()[j] for j in range(0,len(addresses_mod[i][0].split())-1) if (addresses_mod[i][0].split()[j]==addresses_mod[i][0].split()[j].title()) | (addresses_mod[i][0].split()[j] not in sp) | (addresses_mod[i][0].split()[j+1] not in sp)] \
-#         + [addresses_mod[i][0].split()[-1] if addresses_mod[i][0].split()[-1] not in sp else '']) +' '+addresses_mod[i][-1]+', A Coruña, Galicia, España')))))))))))))))))))))))))))))))))))))))) \
-#         for i in range(len(addresses_mod))}
-#     new_adresses = list(set(new_adresses_dict.values()))
+def get_lat_long_osm(address):
+    x = address
+    addresses_mod_dict = {x:(re.split(r'\d+',x)[0], '' if re.findall(r'\d+',x)==[] else re.findall(r'\d+',x)[0])}
+    addresses_mod = list(addresses_mod_dict.values())
+    new_adresses_dict = {addresses_mod[i]:re.sub(r"\bTrav\b", "Travesia",re.sub(r"\bA Milton\b", "Archer Milton",re.sub(r"\bFraga do Eume\b","Fraga", \
+        re.sub(r"\bCrta. \b","Carretera ",re.sub(r"\bVales Villamartín\b","Vales Villamarín",re.sub(r"\bOzán\b","Orzán",re.sub(r"\bJ Sebastián\b","Juan Sebastián", \
+        re.sub(r"\bJosé L\b","Jose Luis",re.sub(r"\bLuciano Y\b","Luciano Yordi",re.sub(r"\bFdez\b","Fernandez", \
+        re.sub(r"\bRua A. \b","",re.sub(r"\bRua A. Sanjurjo de Carricarte\b","Sanjurjo Carricarte",re.sub(r"\bPlg.\b","Poligono ", \
+        re.sub(r"\bFco\b","Francisco",re.sub(r"\bP. Barrié la Maza\b","Pedro Barrié la Maza",re.sub(r"\bJosé Mara Hernansáez\b","José Maria Hernansáez", \
+        re.sub(r"\bGrupo de Viviendas Nuestra Señora del Carmen\b","Grupo de Vivendas Nosa Señora do Carme",re.sub(r"\bOza\b","de Oza", re.sub(r"\bel Cano\b","Elcano", \
+        re.sub(r"\bBoquete\b","Boquete de",re.sub(r"\bPintor Vilar\b","Pintor Villar",re.sub(r"\bLuis Peña Nova\b","Luis Peña Novo",re.sub(r"\bEnrique Mariño\b","Enrique Mariñas", \
+        re.sub(r"\bAvenida Concordia\b","Concordia", re.sub(r"\bJoaquín Cotarelo Martínez\b","Doctor Joaquín Cotarelo",re.sub(r"\bJubias\b","Xubias",re.sub(r"\bSanmartín\b","San Martín", \
+        re.sub(r"\bherrería\b","herrerías",re.sub(r"\bSegunda\b","",re.sub(r"\bAboage\b","Amboage",re.sub(r"\bIlla\b","Illas",re.sub(r"\bPascoas\b","Pascoaes",re.sub(r"\bpascuas\b","Pascoaes", \
+        re.sub(r"\bCalla\b","Rua",re.sub(r"\barresto\b","Armesto",re.sub(r"\bRonde\b","Ronda",re.sub(r"\bRúa\b",'Rua',re.sub(r"\bCale\b",'Rua',re.sub(r"\bCalle\b",'Rua', \
+        (' '.join([addresses_mod[i][0].split()[j] for j in range(0,len(addresses_mod[i][0].split())-1) if (addresses_mod[i][0].split()[j]==addresses_mod[i][0].split()[j].title()) | (addresses_mod[i][0].split()[j] not in sp) | (addresses_mod[i][0].split()[j+1] not in sp)] \
+        + [addresses_mod[i][0].split()[-1] if addresses_mod[i][0].split()[-1] not in sp else '']) +' '+addresses_mod[i][-1]+', A Coruña, Galicia, España')))))))))))))))))))))))))))))))))))))))) \
+        for i in range(len(addresses_mod))}
+    new_adresses = list(set(new_adresses_dict.values()))
 
-#     addr_geocoded = {}
-#     addr = new_adresses[0]
-#     loc = locator.geocode(addr,timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#     pc, city = check_pc(loc), check_city(loc)
-#     try:
-#         if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#             loc = locator.geocode(re.sub(r"\bRua\b","Calle", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#             pc, city = check_pc(loc), check_city(loc)
-#             if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                 loc = locator.geocode(re.sub(r"\bel\b","de", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                 pc, city = check_pc(loc), check_city(loc)
-#                 if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                     loc = locator.geocode(re.sub(r"\bRua\b","", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                     pc, city = check_pc(loc), check_city(loc)
-#                     if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                         loc = locator.geocode(re.sub(r"\bde\b", "", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                         pc, city = check_pc(loc), check_city(loc)
-#                         if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                             if 'de' in addr.lower():
-#                                 loc = locator.geocode(re.sub(r"\bde\b", "da", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                 pc, city = check_pc(loc), check_city(loc)
-#                             elif 'do' in addr.lower():
-#                                 loc = locator.geocode(re.sub(r"\bdo\b", "de", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                 pc, city = check_pc(loc), check_city(loc)
+    addr_geocoded = {}
+    addr = new_adresses[0]
+    loc = locator.geocode(addr,timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+    pc, city = check_pc(loc), check_city(loc)
+    try:
+        if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+            loc = locator.geocode(re.sub(r"\bRua\b","Calle", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+            pc, city = check_pc(loc), check_city(loc)
+            if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                loc = locator.geocode(re.sub(r"\bel\b","de", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                pc, city = check_pc(loc), check_city(loc)
+                if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                    loc = locator.geocode(re.sub(r"\bRua\b","", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                    pc, city = check_pc(loc), check_city(loc)
+                    if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                        loc = locator.geocode(re.sub(r"\bde\b", "", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                        pc, city = check_pc(loc), check_city(loc)
+                        if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                            if 'de' in addr.lower():
+                                loc = locator.geocode(re.sub(r"\bde\b", "da", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                pc, city = check_pc(loc), check_city(loc)
+                            elif 'do' in addr.lower():
+                                loc = locator.geocode(re.sub(r"\bdo\b", "de", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                pc, city = check_pc(loc), check_city(loc)
                                 
-#                             if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                                 loc = locator.geocode(re.sub(r",","", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                 pc, city = check_pc(loc), check_city(loc)
+                            if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                                loc = locator.geocode(re.sub(r",","", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                pc, city = check_pc(loc), check_city(loc)
 
-#                                 if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                                     if ('travesía' in addr.lower()) and ('buenavista' in addr.lower()):
-#                                         loc = locator.geocode(re.sub(r"\bde\b", "", re.sub(r"\brua\b", "", addr.lower())),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'Plaza' in addr:
-#                                         loc = locator.geocode(re.sub(r"\bPlaza\b","Plaza de", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                         if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                                             loc = locator.geocode(re.sub(r"\bPlaza\b","Praza", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                             pc, city = check_pc(loc), check_city(loc)
-#                                             if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                                                 loc = locator.geocode(re.sub(re.findall(r'\d+',addr)[0],"", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                                 pc, city = check_pc(loc), check_city(loc)
-#                                     elif ('lugar' in addr.lower()) and ('birloque' in addr.lower()):
-#                                         loc = locator.geocode(re.sub(r"\bel\b", "", re.sub(r"\blugar\b", "", addr.lower())),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                         if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                                             loc = locator.geocode(re.sub(r"\bdel\b", "", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                             pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'Lugar' in addr:
-#                                         loc = locator.geocode(re.sub(r"\bLugar\b","", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                         if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                                             loc = locator.geocode(re.sub(r"\bdel\b", "", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                             pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'cantera' in addr.lower():
-#                                         loc = locator.geocode(re.sub(r"\bcantera\b","carretera",re.sub(r"\brua\b","", addr.lower())),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'rrr' in addr.lower():
-#                                         loc = locator.geocode(addr.replace('rrr','rr'),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'ss' in addr.lower():
-#                                         loc = locator.geocode(addr.replace('ss','s'),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'manuela' in addr.lower():
-#                                         loc = locator.geocode(re.sub(r"\bmanuela\b","manuel", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'novoa' in addr.lower():
-#                                         loc = locator.geocode(re.sub(r"\bnovoa\b","novo", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'avenida' in addr.lower():
-#                                         loc = locator.geocode(re.sub(r"\bavenida\b","", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                         if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                                             loc = locator.geocode(re.sub(r"\bla\b","",re.sub(r"\btorre\b","", addr.lower())),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                             pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'travesía' in addr.lower():
-#                                         loc = locator.geocode(re.sub(r"\btravesía\b","calle", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                         if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
-#                                             loc = locator.geocode('travesía '+ addr.lower().split('travesía')[-1],timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                             pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'neira' in addr.lower():
-#                                         loc = locator.geocode(re.sub(r"\bneira\b","neyra", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'juan' in addr.lower():
-#                                         loc = locator.geocode(re.sub(r"\bjuan\b","juana", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'ramón' in addr.lower():
-#                                         loc = locator.geocode(re.sub(r"\bramón\b","román", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'naturalista' in addr.lower():
-#                                         loc = locator.geocode(re.sub(r"\bnaturalista\b","", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'nuestra señora' in addr.lower():
-#                                         loc = locator.geocode(addr.lower().split('nuestra')[-1],timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'pereira' in addr.lower():
-#                                         loc = locator.geocode(re.sub(r"\bpereira\b","pedreira", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'villa' in addr.lower():
-#                                         loc = locator.geocode(re.sub(r"\bvilla\b","vila", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
-#                                     elif 'Igualdad'.lower() in addr.lower():
-#                                         loc = {'latitude':43.3570754, 'longitude':-8.4119984}
-#                                         pc = '15008'
-#                                         city = 'A Coruña'
+                                if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                                    if ('travesía' in addr.lower()) and ('buenavista' in addr.lower()):
+                                        loc = locator.geocode(re.sub(r"\bde\b", "", re.sub(r"\brua\b", "", addr.lower())),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'Plaza' in addr:
+                                        loc = locator.geocode(re.sub(r"\bPlaza\b","Plaza de", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                        if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                                            loc = locator.geocode(re.sub(r"\bPlaza\b","Praza", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                            pc, city = check_pc(loc), check_city(loc)
+                                            if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                                                loc = locator.geocode(re.sub(re.findall(r'\d+',addr)[0],"", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                                pc, city = check_pc(loc), check_city(loc)
+                                    elif ('lugar' in addr.lower()) and ('birloque' in addr.lower()):
+                                        loc = locator.geocode(re.sub(r"\bel\b", "", re.sub(r"\blugar\b", "", addr.lower())),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                        if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                                            loc = locator.geocode(re.sub(r"\bdel\b", "", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                            pc, city = check_pc(loc), check_city(loc)
+                                    elif 'Lugar' in addr:
+                                        loc = locator.geocode(re.sub(r"\bLugar\b","", addr),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                        if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                                            loc = locator.geocode(re.sub(r"\bdel\b", "", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                            pc, city = check_pc(loc), check_city(loc)
+                                    elif 'cantera' in addr.lower():
+                                        loc = locator.geocode(re.sub(r"\bcantera\b","carretera",re.sub(r"\brua\b","", addr.lower())),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'rrr' in addr.lower():
+                                        loc = locator.geocode(addr.replace('rrr','rr'),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'ss' in addr.lower():
+                                        loc = locator.geocode(addr.replace('ss','s'),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'manuela' in addr.lower():
+                                        loc = locator.geocode(re.sub(r"\bmanuela\b","manuel", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'novoa' in addr.lower():
+                                        loc = locator.geocode(re.sub(r"\bnovoa\b","novo", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'avenida' in addr.lower():
+                                        loc = locator.geocode(re.sub(r"\bavenida\b","", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                        if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                                            loc = locator.geocode(re.sub(r"\bla\b","",re.sub(r"\btorre\b","", addr.lower())),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                            pc, city = check_pc(loc), check_city(loc)
+                                    elif 'travesía' in addr.lower():
+                                        loc = locator.geocode(re.sub(r"\btravesía\b","calle", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                        if (loc == None) | (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])==0):
+                                            loc = locator.geocode('travesía '+ addr.lower().split('travesía')[-1],timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                            pc, city = check_pc(loc), check_city(loc)
+                                    elif 'neira' in addr.lower():
+                                        loc = locator.geocode(re.sub(r"\bneira\b","neyra", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'juan' in addr.lower():
+                                        loc = locator.geocode(re.sub(r"\bjuan\b","juana", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'ramón' in addr.lower():
+                                        loc = locator.geocode(re.sub(r"\bramón\b","román", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'naturalista' in addr.lower():
+                                        loc = locator.geocode(re.sub(r"\bnaturalista\b","", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'nuestra señora' in addr.lower():
+                                        loc = locator.geocode(addr.lower().split('nuestra')[-1],timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'pereira' in addr.lower():
+                                        loc = locator.geocode(re.sub(r"\bpereira\b","pedreira", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'villa' in addr.lower():
+                                        loc = locator.geocode(re.sub(r"\bvilla\b","vila", addr.lower()),timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
+                                    elif 'Igualdad'.lower() in addr.lower():
+                                        loc = {'latitude':43.3570754, 'longitude':-8.4119984}
+                                        pc = '15008'
+                                        city = 'A Coruña'
 
                                         
 
-#                                     else:
-#                                         pre_num = re.split(r'\d+',addr)[0]
-#                                         num = re.findall(r'\d+',addr)[0]
-#                                         post_num = re.split('\d+',addr)[-1]
-#                                         new_addr = ' '.join([word if (spanish.candidates(word)==None) else(spanish.correction(word) if len(spanish.candidates(word))==1 else word) for word in pre_num.split()]+[num,post_num])
-#                                         loc = locator.geocode(new_addr,timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
-#                                         pc, city = check_pc(loc), check_city(loc)
+                                    else:
+                                        pre_num = re.split(r'\d+',addr)[0]
+                                        num = re.findall(r'\d+',addr)[0]
+                                        post_num = re.split('\d+',addr)[-1]
+                                        new_addr = ' '.join([word if (spanish.candidates(word)==None) else(spanish.correction(word) if len(spanish.candidates(word))==1 else word) for word in pre_num.split()]+[num,post_num])
+                                        loc = locator.geocode(new_addr,timeout = 100, language='es', addressdetails=True, viewbox=box, bounded=True)
+                                        pc, city = check_pc(loc), check_city(loc)
 
-#         if loc != None:
-#             if (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])!=0):
-#                 if type(loc) == dict:
-#                     addr_geocoded[addr] = [loc['latitude'],loc['longitude']]
-#                 else:
-#                     addr_geocoded[addr] = [loc.latitude,loc.longitude]
-#             else:
-#                 addr_geocoded[addr] = None
-#         else:
-#             addr_geocoded[addr] = None
+        if loc != None:
+            if (sum([pc in coruña_postcodes, 'a coruña' in city.lower()])!=0):
+                if type(loc) == dict:
+                    addr_geocoded[addr] = [loc['latitude'],loc['longitude']]
+                else:
+                    addr_geocoded[addr] = [loc.latitude,loc.longitude]
+            else:
+                addr_geocoded[addr] = None
+        else:
+            addr_geocoded[addr] = None
 
-#     except:
-#         addr_geocoded[addr] = None
+    except:
+        addr_geocoded[addr] = None
 
-#     return {'lat':addr_geocoded[new_adresses_dict[addresses_mod_dict[x]]][0],'lng':addr_geocoded[new_adresses_dict[addresses_mod_dict[x]]][1]}
+    return {'lat':addr_geocoded[new_adresses_dict[addresses_mod_dict[x]]][0],'lng':addr_geocoded[new_adresses_dict[addresses_mod_dict[x]]][1]}
 
 
 # def get_geocode(file_dir_name, tipo, directory='datos/', test = False):
