@@ -34,9 +34,9 @@ config = json.load(open('config.json','rb'))
 spanish = SpellChecker(language='es')
 locator = Nominatim(user_agent='myGeocoder')
 
-# centro_coruña = [43.3713500, -8.3960000]
-# coruña_limits = locator.geocode('A Coruña, Galicia, España',timeout = 100, language='es').raw['boundingbox']
-# box = [[float(coruña_limits[0]), float(coruña_limits[2])], [float(coruña_limits[1]), float(coruña_limits[3])]]
+centro_coruña = [43.3713500, -8.3960000]
+coruña_limits = locator.geocode('A Coruña, Galicia, España',timeout = 100, language='es').raw['boundingbox']
+box = [[float(coruña_limits[0]), float(coruña_limits[2])], [float(coruña_limits[1]), float(coruña_limits[3])]]
 # coruña_limits = locator.geocode('A Coruña, Galicia, España',timeout = 100, language='es').raw['boundingbox']
 # bounds = f'{coruña_limits[0]},{coruña_limits[1]}%7C{coruña_limits[2]},{coruña_limits[3]}' 
 # coruña_postcodes = [str(v) for v in list(range(15000,15012))+[15170,15190,15191,15192]]
