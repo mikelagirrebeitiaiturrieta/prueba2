@@ -47,6 +47,26 @@ def get_lat_long_google(address):
     resp_json_payload = response.json() 
     return(resp_json_payload['results'][0]['geometry']['location']), resp_json_payload['results'][0]['address_components'][-1]['long_name']
 
+def check_pc(loc):
+    if loc is None: 
+        return None
+    else: 
+        try:
+            if loc.raw['address']['postcode'] != None:
+                return int(loc.raw['address']['postcode'])
+        except:
+            return 0
+
+def check_city(loc):
+    if loc is None: 
+        return 'None'
+    else: 
+        try:
+            if loc.raw['address']['city'] != None:
+                return loc.raw['address']['city']
+        except:
+            return 'None'
+
 def get_lat_long_osm(address):
     x = address
     addresses_mod_dict = {x:(re.split(r'\d+',x)[0], '' if re.findall(r'\d+',x)==[] else re.findall(r'\d+',x)[0])}
@@ -200,466 +220,446 @@ def get_lat_long_osm(address):
     return {'lat':addr_geocoded[new_adresses_dict[addresses_mod_dict[x]]][0],'lng':addr_geocoded[new_adresses_dict[addresses_mod_dict[x]]][1]}
 
 
-# def get_geocode(file_dir_name, tipo, directory='datos/', test = False):
+def get_geocode(file_dir_name, tipo, directory='datos/', test = False):
 
-#     if 'sp.pkl' in os.listdir('SavedData/'):
-#         sp = pickle.load(open('SavedData/sp.pkl','rb'))
-#     else:
-#         all_files = [directory+x for x in os.listdir(directory) if x.endswith('.xls')]
-#         all_addresses = []
-#         for file in all_files:
-#             df = pd.read_excel(file)
-#             all_addresses = all_addresses+list(df.iloc[1:]['Localización'].values)
+    # if 'sp.pkl' in os.listdir('SavedData/'):
+    sp = pickle.load(open('SavedData/sp.pkl','rb'))
+    # else:
+    #     all_files = [directory+x for x in os.listdir(directory) if x.endswith('.xls')]
+    #     all_addresses = []
+    #     for file in all_files:
+    #         df = pd.read_excel(file)
+    #         all_addresses = all_addresses+list(df.iloc[1:]['Localización'].values)
 
-#         all_addresses_mod = [re.split(r'\d+',x)[0] for x in all_addresses]
-#         sp = sp + [v[0] for v in Counter([word for addr in all_addresses_mod for word in addr.split(' ')]).most_common(10) if v[-1]>3000]+['al','número','números','frente','atura','ala','latura','lauta','n','º','alturta','bloque','de.']
-#         pickle.dump(sp,open('SavedData/sp.pkl','wb'))
+    #     all_addresses_mod = [re.split(r'\d+',x)[0] for x in all_addresses]
+    #     sp = sp + [v[0] for v in Counter([word for addr in all_addresses_mod for word in addr.split(' ')]).most_common(10) if v[-1]>3000]+['al','número','números','frente','atura','ala','latura','lauta','n','º','alturta','bloque','de.']
+    #     pickle.dump(sp,open('SavedData/sp.pkl','wb'))
 
-#     if not test:
-#         addresses = list(pd.read_excel(file_dir_name).iloc[1:]['Localización'].drop_duplicates().values)
-#     else:
-#         addresses = get_add_from_file(file_dir_name,tipo)
+    if not test:
+        addresses = list(pd.read_excel(file_dir_name).iloc[1:]['Localización'].drop_duplicates().values)
+    else:
+        addresses = get_add_from_file(file_dir_name,tipo)
 
-#     addresses_mod_dict = {(re.split(r'\d+',x)[0], '' if re.findall(r'\d+',x)==[] else re.findall(r'\d+',x)[0]):x for x in addresses}
-#     addresses_mod = list(addresses_mod_dict.keys())
-#     new_adresses_dict = {(' '.join([addresses_mod[i][0].split()[j] for j in range(0,len(addresses_mod[i][0].split())-1) \
-#         if (addresses_mod[i][0].split()[j]==addresses_mod[i][0].split()[j].title()) | (addresses_mod[i][0].split()[j] not in sp) | (addresses_mod[i][0].split()[j+1] not in sp)] \
-#         + [addresses_mod[i][0].split()[-1] if addresses_mod[i][0].split()[-1] not in sp else '']) +' '+addresses_mod[i][-1]+', A Coruña, Galicia, España'):addresses_mod[i] \
-#         for i in range(len(addresses_mod))}
-#     new_adresses = list(set(new_adresses_dict.keys()))
+    addresses_mod_dict = {(re.split(r'\d+',x)[0], '' if re.findall(r'\d+',x)==[] else re.findall(r'\d+',x)[0]):x for x in addresses}
+    addresses_mod = list(addresses_mod_dict.keys())
+    new_adresses_dict = {(' '.join([addresses_mod[i][0].split()[j] for j in range(0,len(addresses_mod[i][0].split())-1) \
+        if (addresses_mod[i][0].split()[j]==addresses_mod[i][0].split()[j].title()) | (addresses_mod[i][0].split()[j] not in sp) | (addresses_mod[i][0].split()[j+1] not in sp)] \
+        + [addresses_mod[i][0].split()[-1] if addresses_mod[i][0].split()[-1] not in sp else '']) +' '+addresses_mod[i][-1]+', A Coruña, Galicia, España'):addresses_mod[i] \
+        for i in range(len(addresses_mod))}
+    new_adresses = list(set(new_adresses_dict.keys()))
 
-#     addr_geocoded = {}
-#     for addr in new_adresses:
-#         lat_lng, pc = get_lat_long_google(addr)
-#         if pc in coruña_postcodes:
-#             addr_geocoded[addresses_mod_dict[new_adresses_dict[addr]]] = lat_lng
-#         else:
-#             addr_geocoded[addresses_mod_dict[new_adresses_dict[addr]]] = get_lat_long_osm(addr)
-
-
-#     return addr_geocoded
+    addr_geocoded = {}
+    for addr in new_adresses:
+        lat_lng, pc = get_lat_long_google(addr)
+        if pc in coruña_postcodes:
+            addr_geocoded[addresses_mod_dict[new_adresses_dict[addr]]] = lat_lng
+        else:
+            addr_geocoded[addresses_mod_dict[new_adresses_dict[addr]]] = get_lat_long_osm(addr)
 
 
+    return addr_geocoded
 
-# def create_data_model(distance_matrix, num_vehicles, initial_routes):
-#     """Stores the data for the problem."""
-#     data = {}
-#     data['distance_matrix'] = distance_matrix
-#     data['num_vehicles'] = num_vehicles
-#     data['starts'] = [0]*num_vehicles
-#     data['ends'] = [1]*num_vehicles
 
-#     if initial_routes:
-#         data['initial_routes'] = initial_routes
-#     return data
 
-# def print_solution(data, manager, routing, solution):
-#     """Prints solution on console."""
-#     print(f'Objective: {solution.ObjectiveValue()}')
-#     max_route_distance = 0
-#     for vehicle_id in range(data['num_vehicles']):
-#         index = routing.Start(vehicle_id)
-#         plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
-#         route_distance = 0
-#         while not routing.IsEnd(index):
-#             plan_output += ' {} -> '.format(manager.IndexToNode(index))
-#             previous_index = index
-#             index = solution.Value(routing.NextVar(index))
-#             route_distance += routing.GetArcCostForVehicle(
-#                 previous_index, index, vehicle_id)
-#         plan_output += '{}\n'.format(manager.IndexToNode(index))
-#         plan_output += 'Distance of the route: {}m\n'.format(route_distance)
-#         print(plan_output)
-#         max_route_distance = max(route_distance, max_route_distance)
-#     print('Maximum of the route distances: {}m'.format(max_route_distance))
+def create_data_model(distance_matrix, num_vehicles, initial_routes):
+    """Stores the data for the problem."""
+    data = {}
+    data['distance_matrix'] = distance_matrix
+    data['num_vehicles'] = num_vehicles
+    data['starts'] = [0]*num_vehicles
+    data['ends'] = [1]*num_vehicles
 
-# def get_routes(solution, routing, manager):
-#     """Get vehicle routes from a solution and store them in an array."""
-#   # Get vehicle routes and store them in a two dimensional array whose
-#   # i,j entry is the jth location visited by vehicle i along its route.
-#     routes = []
-#     for route_nbr in range(routing.vehicles()):
-#         index = routing.Start(route_nbr)
-#         route = [manager.IndexToNode(index)]
-#         while not routing.IsEnd(index):
-#             index = solution.Value(routing.NextVar(index))
-#             route.append(manager.IndexToNode(index))
-#         routes.append(route)
-#     return routes
-# def solve_vrp(distance_matrix,num_vehicles, initial_routes):
+    if initial_routes:
+        data['initial_routes'] = initial_routes
+    return data
 
-#     """Entry point of the program."""
-#     # Instantiate the data problem.
-#     data = create_data_model(distance_matrix,num_vehicles, initial_routes)
+def print_solution(data, manager, routing, solution):
+    """Prints solution on console."""
+    print(f'Objective: {solution.ObjectiveValue()}')
+    max_route_distance = 0
+    for vehicle_id in range(data['num_vehicles']):
+        index = routing.Start(vehicle_id)
+        plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
+        route_distance = 0
+        while not routing.IsEnd(index):
+            plan_output += ' {} -> '.format(manager.IndexToNode(index))
+            previous_index = index
+            index = solution.Value(routing.NextVar(index))
+            route_distance += routing.GetArcCostForVehicle(
+                previous_index, index, vehicle_id)
+        plan_output += '{}\n'.format(manager.IndexToNode(index))
+        plan_output += 'Distance of the route: {}m\n'.format(route_distance)
+        print(plan_output)
+        max_route_distance = max(route_distance, max_route_distance)
+    print('Maximum of the route distances: {}m'.format(max_route_distance))
 
-#     # Create the routing index manager.
-#     manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
-#                                            data['num_vehicles'], data['starts'],
-#                                            data['ends'])
+def get_routes(solution, routing, manager):
+    """Get vehicle routes from a solution and store them in an array."""
+  # Get vehicle routes and store them in a two dimensional array whose
+  # i,j entry is the jth location visited by vehicle i along its route.
+    routes = []
+    for route_nbr in range(routing.vehicles()):
+        index = routing.Start(route_nbr)
+        route = [manager.IndexToNode(index)]
+        while not routing.IsEnd(index):
+            index = solution.Value(routing.NextVar(index))
+            route.append(manager.IndexToNode(index))
+        routes.append(route)
+    return routes
+def solve_vrp(distance_matrix,num_vehicles, initial_routes):
 
-#     # Create Routing Model.
-#     routing = pywrapcp.RoutingModel(manager)
+    """Entry point of the program."""
+    # Instantiate the data problem.
+    data = create_data_model(distance_matrix,num_vehicles, initial_routes)
 
-#     # Create and register a transit callback.
-#     def distance_callback(from_index, to_index):
-#         """Returns the distance between the two nodes."""
-#         # Convert from routing variable Index to distance matrix NodeIndex.
-#         from_node = manager.IndexToNode(from_index)
-#         to_node = manager.IndexToNode(to_index)
-#         return data['distance_matrix'][from_node][to_node]
+    # Create the routing index manager.
+    manager = pywrapcp.RoutingIndexManager(len(data['distance_matrix']),
+                                           data['num_vehicles'], data['starts'],
+                                           data['ends'])
 
-#     transit_callback_index = routing.RegisterTransitCallback(distance_callback)
+    # Create Routing Model.
+    routing = pywrapcp.RoutingModel(manager)
 
-#     # Define cost of each arc.
-#     routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
+    # Create and register a transit callback.
+    def distance_callback(from_index, to_index):
+        """Returns the distance between the two nodes."""
+        # Convert from routing variable Index to distance matrix NodeIndex.
+        from_node = manager.IndexToNode(from_index)
+        to_node = manager.IndexToNode(to_index)
+        return data['distance_matrix'][from_node][to_node]
 
-#     # Add Distance constraint.
-#     dimension_name = 'Distance'
-#     routing.AddDimension(
-#         transit_callback_index,
-#         0,  # no slack
-#         200000000,  # vehicle maximum travel distance
-#         True,  # start cumul to zero
-#         dimension_name)
-#     distance_dimension = routing.GetDimensionOrDie(dimension_name)
-#     distance_dimension.SetGlobalSpanCostCoefficient(100)
+    transit_callback_index = routing.RegisterTransitCallback(distance_callback)
 
-#     # Setting first solution heuristic.
-#     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
-#     search_parameters.local_search_metaheuristic = (
-#         routing_enums_pb2.LocalSearchMetaheuristic.GUIDED_LOCAL_SEARCH)
-#     search_parameters.time_limit.seconds = 50
-#     search_parameters.first_solution_strategy = (
-#         routing_enums_pb2.FirstSolutionStrategy.AUTOMATIC)
+    # Define cost of each arc.
+    routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
 
-#     # Solve the problem.
-#     if initial_routes:
-#         initial_solution = routing.ReadAssignmentFromRoutes(data['initial_routes'], True)
-#         solution = routing.SolveFromAssignmentWithParameters(initial_solution,search_parameters)
-#     else:
-#         solution = routing.SolveWithParameters(search_parameters)
+    # Add Distance constraint.
+    dimension_name = 'Distance'
+    routing.AddDimension(
+        transit_callback_index,
+        0,  # no slack
+        200000000,  # vehicle maximum travel distance
+        True,  # start cumul to zero
+        dimension_name)
+    distance_dimension = routing.GetDimensionOrDie(dimension_name)
+    distance_dimension.SetGlobalSpanCostCoefficient(100)
 
-#     # Print solution on console.
-#     if solution:
-#         routes = get_routes(solution, routing, manager)
-#         # print_solution(data, manager, routing, solution)
-#         return routes
+    # Setting first solution heuristic.
+    search_parameters = pywrapcp.DefaultRoutingSearchParameters()
+    search_parameters.local_search_metaheuristic = (
+        routing_enums_pb2.LocalSearchMetaheuristic.GUIDED_LOCAL_SEARCH)
+    search_parameters.time_limit.seconds = 50
+    search_parameters.first_solution_strategy = (
+        routing_enums_pb2.FirstSolutionStrategy.AUTOMATIC)
 
-# def get_matrix_from_record(addresses,filename):
-#     #check if file exists
+    # Solve the problem.
+    if initial_routes:
+        initial_solution = routing.ReadAssignmentFromRoutes(data['initial_routes'], True)
+        solution = routing.SolveFromAssignmentWithParameters(initial_solution,search_parameters)
+    else:
+        solution = routing.SolveWithParameters(search_parameters)
 
-#     if not os.path.isfile(filename):
-#         #if it doesn't create the file and add an empty dictionary to append the downloaded matrix
-#         d = {}
-#         pickle.dump(d,open(filename,'wb'))
-#         return False
-#     d = pickle.load(open(filename,'rb'))
-#     if d.get(tuple(addresses)) is None:
-#         return False
-#     return d[tuple(addresses)]
+    # Print solution on console.
+    if solution:
+        routes = get_routes(solution, routing, manager)
+        # print_solution(data, manager, routing, solution)
+        return routes
 
-# def get_matrix_from_coordinates(coordinates, addresses, recalculate = False, use_google = False):
-#     data_folder = config['distance_matrix_folder']
-#     filename = os.path.join(data_folder, 'saved_matrixes.pickle')
-#     m = get_matrix_from_record(addresses, filename)
-#     if not recalculate:
-#         if m:
-#             return m
-#     distance_matrix = np.zeros((len(coordinates),len(coordinates)))
-#     km_matrix = np.zeros((len(coordinates),len(coordinates)))
-#     for k in range(10, len(coordinates)+10, 10):
-#         for j in range(10, len(coordinates)+10, 10):
+def get_matrix_from_record(addresses,filename):
+    #check if file exists
 
-#             # origins_destinations_x = '|'.join(addresses[k-10:k])
-#             # origins_destinations_y = '|'.join(addresses[j-10:j])
+    if not os.path.isfile(filename):
+        #if it doesn't create the file and add an empty dictionary to append the downloaded matrix
+        d = {}
+        pickle.dump(d,open(filename,'wb'))
+        return False
+    d = pickle.load(open(filename,'rb'))
+    if d.get(tuple(addresses)) is None:
+        return False
+    return d[tuple(addresses)]
 
-#             origins_destinations_x = dest_creator(coordinates[k-10:k])
-#             origins_destinations_y = dest_creator(coordinates[j-10:j])
-#             if use_google:
-#                 url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s&destinations=%s&key=%s"%(origins_destinations_x,origins_destinations_y,API_key)
-#             else:
-#                 url = f'https://api.distancematrix.ai/maps/api/distancematrix/json?origins={origins_destinations_x}&destinations={origins_destinations_y}&key={api_distance_matrix}'
-#             payload={}
-#             headers = {}
+def get_matrix_from_coordinates(coordinates, addresses, recalculate = False, use_google = False):
+    data_folder = config['distance_matrix_folder']
+    filename = os.path.join(data_folder, 'saved_matrixes.pickle')
+    m = get_matrix_from_record(addresses, filename)
+    if not recalculate:
+        if m:
+            return m
+    distance_matrix = np.zeros((len(coordinates),len(coordinates)))
+    km_matrix = np.zeros((len(coordinates),len(coordinates)))
+    for k in range(10, len(coordinates)+10, 10):
+        for j in range(10, len(coordinates)+10, 10):
 
-#             response = requests.request("GET", url, headers=headers, data=payload)
-#             try:
-#                 distance_matrix_1 = [[response.json()['rows'][i]['elements'][j]['duration']['value'] for j in range(len(response.json()['rows'][i]['elements']))] for i in range(len(response.json()['rows']))]
-#                 km_matrix_1 =  [[response.json()['rows'][i]['elements'][j]['distance']['value'] for j in range(len(response.json()['rows'][i]['elements']))] for i in range(len(response.json()['rows']))]
-#             except:
-#                 print('ERROR IN DISTANCE MATRIX RESPONSE')
-#                 break
-#             distance_matrix[k-10:k,j-10:j] = distance_matrix_1
-#             km_matrix[k - 10:k, j - 10:j] = km_matrix_1
-#             if not use_google:
-#                 time.sleep(5)
-#     distance_matrix = distance_matrix.tolist()
-#     distance_matrix = [[np.round(y).astype(int) for y in x] for x in distance_matrix]
-#     if not os.path.isfile('SavedData/saved_matrixes.pickle'):
-#         d = {}
-#         pickle.dump(d,open(filename,'wb'))
-#     d = pickle.load(open(filename,'rb'))
-#     d[tuple(addresses)]=distance_matrix,km_matrix
-#     pickle.dump(d,open(filename,'wb'))
-#     return distance_matrix,km_matrix
+            # origins_destinations_x = '|'.join(addresses[k-10:k])
+            # origins_destinations_y = '|'.join(addresses[j-10:j])
 
-# def dest_creator(values):
-#     dest = ''
-#     for c in values:
-#         dest += f"{c['lat']},{c['lng']}|"
-#     dest=dest[:-1]
-#     return dest
-# def get_waypoints(coordinates_list):
-#     coordinates = []
-#     for coordinate in coordinates_list:
-#         pair = [coordinate['lng'],coordinate['lat']]
-#         coordinates.append(pair)
-#     route = client.directions(coordinates=coordinates,
-#                           profile='driving-car',
-#                           format='geojson')
-#     return route["features"][0]["geometry"]
-# def auto_open(path):
-#     html_page = f'{path}'
-#     # open in browser.
-#     new = 2
-#     webbrowser.open(html_page, new=new)
+            origins_destinations_x = dest_creator(coordinates[k-10:k])
+            origins_destinations_y = dest_creator(coordinates[j-10:j])
+            if use_google:
+                url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s&destinations=%s&key=%s"%(origins_destinations_x,origins_destinations_y,API_key)
+            else:
+                url = f'https://api.distancematrix.ai/maps/api/distancematrix/json?origins={origins_destinations_x}&destinations={origins_destinations_y}&key={api_distance_matrix}'
+            payload={}
+            headers = {}
 
-# def create_map(coordinates_list, address_list, type, save_path):
-#     start = [coordinates_list[0][0]['lat'], coordinates_list[0][0]['lng']]
-#     styles = [lambda x: {'color': '#00b0ffff', 'opacity': 0.8, 'weight': 4},
-#               lambda x: {'color': '#FF2F2F', 'opacity': 0.8, 'weight': 4}]
-#     colors = ['#1d6ad2ff', '#FF2F2F']
-#     bcolors = ['#00b0ffff', '#ff5959ff']
-#     m = folium.Map(location=start, tiles="cartodbpositron", zoom_start=12)
-#     for k, coordinates in enumerate(coordinates_list):
-#         style = styles[k]
-#         color = colors[k]
-#         bcolor = bcolors[k]
-#         route = get_waypoints(coordinates)
-#         waypoints = folium.GeoJson(route, style_function=style)
-#         waypoints.layer_name = f'{type} {k + 1}'
-#         waypoints.add_to(m)
-#         addresses = address_list[k]
+            response = requests.request("GET", url, headers=headers, data=payload)
+            try:
+                distance_matrix_1 = [[response.json()['rows'][i]['elements'][j]['duration']['value'] for j in range(len(response.json()['rows'][i]['elements']))] for i in range(len(response.json()['rows']))]
+                km_matrix_1 =  [[response.json()['rows'][i]['elements'][j]['distance']['value'] for j in range(len(response.json()['rows'][i]['elements']))] for i in range(len(response.json()['rows']))]
+            except:
+                print('ERROR IN DISTANCE MATRIX RESPONSE')
+                break
+            distance_matrix[k-10:k,j-10:j] = distance_matrix_1
+            km_matrix[k - 10:k, j - 10:j] = km_matrix_1
+            if not use_google:
+                time.sleep(5)
+    distance_matrix = distance_matrix.tolist()
+    distance_matrix = [[np.round(y).astype(int) for y in x] for x in distance_matrix]
+    if not os.path.isfile('SavedData/saved_matrixes.pickle'):
+        d = {}
+        pickle.dump(d,open(filename,'wb'))
+    d = pickle.load(open(filename,'rb'))
+    d[tuple(addresses)]=distance_matrix,km_matrix
+    pickle.dump(d,open(filename,'wb'))
+    return distance_matrix,km_matrix
 
-#         for i in range(0, len(coordinates)):
-#             folium.Marker(
-#                 location=[coordinates[i]['lat'], coordinates[i]['lng']], popup=addresses[i],
-#                 icon=plugins.BeautifyIcon(
-#                     icon="arrow-down", icon_shape="marker",
-#                     number=i,
-#                     border_color=color,
-#                     background_color=bcolor,
-#                     border_width=2.5,
-#                     text_color='white'
+def dest_creator(values):
+    dest = ''
+    for c in values:
+        dest += f"{c['lat']},{c['lng']}|"
+    dest=dest[:-1]
+    return dest
+def get_waypoints(coordinates_list):
+    coordinates = []
+    for coordinate in coordinates_list:
+        pair = [coordinate['lng'],coordinate['lat']]
+        coordinates.append(pair)
+    route = client.directions(coordinates=coordinates,
+                          profile='driving-car',
+                          format='geojson')
+    return route["features"][0]["geometry"]
+def auto_open(path):
+    html_page = f'{path}'
+    # open in browser.
+    new = 2
+    webbrowser.open(html_page, new=new)
 
-#                 )
-#             ).add_to(waypoints)
+def create_map(coordinates_list, address_list, type, save_path):
+    start = [coordinates_list[0][0]['lat'], coordinates_list[0][0]['lng']]
+    styles = [lambda x: {'color': '#00b0ffff', 'opacity': 0.8, 'weight': 4},
+              lambda x: {'color': '#FF2F2F', 'opacity': 0.8, 'weight': 4}]
+    colors = ['#1d6ad2ff', '#FF2F2F']
+    bcolors = ['#00b0ffff', '#ff5959ff']
+    m = folium.Map(location=start, tiles="cartodbpositron", zoom_start=12)
+    for k, coordinates in enumerate(coordinates_list):
+        style = styles[k]
+        color = colors[k]
+        bcolor = bcolors[k]
+        route = get_waypoints(coordinates)
+        waypoints = folium.GeoJson(route, style_function=style)
+        waypoints.layer_name = f'{type} {k + 1}'
+        waypoints.add_to(m)
+        addresses = address_list[k]
 
-#     folium.LayerControl().add_to(m)
-#     m.save(save_path)
-#     auto_open(save_path)
+        for i in range(0, len(coordinates)):
+            folium.Marker(
+                location=[coordinates[i]['lat'], coordinates[i]['lng']], popup=addresses[i],
+                icon=plugins.BeautifyIcon(
+                    icon="arrow-down", icon_shape="marker",
+                    number=i,
+                    border_color=color,
+                    background_color=bcolor,
+                    border_width=2.5,
+                    text_color='white'
 
-# def check_pc(loc):
-#     if loc is None: 
-#         return None
-#     else: 
-#         try:
-#             if loc.raw['address']['postcode'] != None:
-#                 return int(loc.raw['address']['postcode'])
-#         except:
-#             return 0
+                )
+            ).add_to(waypoints)
 
-# def check_city(loc):
-#     if loc is None: 
-#         return 'None'
-#     else: 
-#         try:
-#             if loc.raw['address']['city'] != None:
-#                 return loc.raw['address']['city']
-#         except:
-#             return 'None'
+    folium.LayerControl().add_to(m)
+    m.save(save_path)
+    auto_open(save_path)
 
     
-# def clusterize_routes(a, file='map'):
-#     b = pd.DataFrame([[k,v['lat'],v['lng']] for k,v in a.items()], columns=['address','lat','lng'])
-#     kmeans = KMeans(n_clusters=2, random_state=0, n_init=20).fit(b[['lat','lng']]).fit(b[['lat','lng']])
-#     b['cluster'] = kmeans.labels_
+def clusterize_routes(a, file='map'):
+    b = pd.DataFrame([[k,v['lat'],v['lng']] for k,v in a.items()], columns=['address','lat','lng'])
+    kmeans = KMeans(n_clusters=2, random_state=0, n_init=20).fit(b[['lat','lng']]).fit(b[['lat','lng']])
+    b['cluster'] = kmeans.labels_
 
-#     b_modified = b.copy()
+    b_modified = b.copy()
 
-#     len_a = b.cluster.value_counts()[0]
-#     len_b = b.cluster.value_counts()[1]
-#     c = b.cluster.value_counts().reset_index()
-#     c = c[c.cluster==c.cluster.min()]['index'].values[0]
-#     min_group = b[b.cluster==c]
-#     neigh = NearestNeighbors(n_neighbors=1, algorithm='ball_tree', metric='euclidean')
-#     neigh.fit(min_group[['lat','lng']])
-#     res = neigh.kneighbors(b[b.cluster!=c][['lat','lng']])
-#     res = sorted([(res[0][i][0],i) for i in range(len(res[0]))], key=lambda x: x[0])
-#     while (abs(len_a-len_b)/len(b))>.1:
-#         ind = b.loc[b.cluster!=c].index[res[0][-1]]
-#         b_modified.loc[b_modified.index==ind,'cluster'] = c
-#         res.pop(0)
-#         len_a = b_modified.cluster.value_counts()[0]
-#         len_b = b_modified.cluster.value_counts()[1]
+    len_a = b.cluster.value_counts()[0]
+    len_b = b.cluster.value_counts()[1]
+    c = b.cluster.value_counts().reset_index()
+    c = c[c.cluster==c.cluster.min()]['index'].values[0]
+    min_group = b[b.cluster==c]
+    neigh = NearestNeighbors(n_neighbors=1, algorithm='ball_tree', metric='euclidean')
+    neigh.fit(min_group[['lat','lng']])
+    res = neigh.kneighbors(b[b.cluster!=c][['lat','lng']])
+    res = sorted([(res[0][i][0],i) for i in range(len(res[0]))], key=lambda x: x[0])
+    while (abs(len_a-len_b)/len(b))>.1:
+        ind = b.loc[b.cluster!=c].index[res[0][-1]]
+        b_modified.loc[b_modified.index==ind,'cluster'] = c
+        res.pop(0)
+        len_a = b_modified.cluster.value_counts()[0]
+        len_b = b_modified.cluster.value_counts()[1]
 
-#     max_cluster_zone = Counter([b_modified.loc[i,'cluster'] for i in range(len(b_modified)) if ((b_modified.loc[i,'lat']>=43.36517557656243) & (b_modified.loc[i,'lat']<=43.415175576562436)) & ((b_modified.loc[i,'lng']>=-8.405116816178221) & (b_modified.loc[i,'lng']<=-8.365116816178221)) | ((b_modified.loc[i,'lat']>=43.36517557656243)&((b_modified.loc[i,'lng']<=-8.405116816178221)&(b.loc[i,'lng']>=-8.455116816178221)))]).most_common(1)[0][0]
-#     for i in range(len(b_modified)): 
-#         if ((b_modified.loc[i,'lat']>=43.36517557656243) & (b_modified.loc[i,'lat']<=43.415175576562436)) & ((b_modified.loc[i,'lng']>=-8.405116816178221) & (b_modified.loc[i,'lng']<=-8.365116816178221)) | ((b_modified.loc[i,'lat']>=43.36517557656243)&((b_modified.loc[i,'lng']<=-8.405116816178221)&(b.loc[i,'lng']>=-8.455116816178221))):
-#             b_modified.loc[i,'cluster'] = max_cluster_zone   
+    max_cluster_zone = Counter([b_modified.loc[i,'cluster'] for i in range(len(b_modified)) if ((b_modified.loc[i,'lat']>=43.36517557656243) & (b_modified.loc[i,'lat']<=43.415175576562436)) & ((b_modified.loc[i,'lng']>=-8.405116816178221) & (b_modified.loc[i,'lng']<=-8.365116816178221)) | ((b_modified.loc[i,'lat']>=43.36517557656243)&((b_modified.loc[i,'lng']<=-8.405116816178221)&(b.loc[i,'lng']>=-8.455116816178221)))]).most_common(1)[0][0]
+    for i in range(len(b_modified)): 
+        if ((b_modified.loc[i,'lat']>=43.36517557656243) & (b_modified.loc[i,'lat']<=43.415175576562436)) & ((b_modified.loc[i,'lng']>=-8.405116816178221) & (b_modified.loc[i,'lng']<=-8.365116816178221)) | ((b_modified.loc[i,'lat']>=43.36517557656243)&((b_modified.loc[i,'lng']<=-8.405116816178221)&(b.loc[i,'lng']>=-8.455116816178221))):
+            b_modified.loc[i,'cluster'] = max_cluster_zone   
 
-#     # plot_map(b_modified, name=file+'_post')
+    # plot_map(b_modified, name=file+'_post')
 
-#     route_0 = b_modified[b_modified.cluster==0]
-#     route_0 = {route_0.iloc[i,0]:{'lat':route_0.iloc[i,1],'lng':route_0.iloc[i,2]} for i in range(len(route_0))}
-#     route_1 = b_modified[b_modified.cluster==1]
-#     route_1 = {route_1.iloc[i,0]:{'lat':route_1.iloc[i,1],'lng':route_1.iloc[i,2]} for i in range(len(route_1))}
-#     return [route_0, route_1]
+    route_0 = b_modified[b_modified.cluster==0]
+    route_0 = {route_0.iloc[i,0]:{'lat':route_0.iloc[i,1],'lng':route_0.iloc[i,2]} for i in range(len(route_0))}
+    route_1 = b_modified[b_modified.cluster==1]
+    route_1 = {route_1.iloc[i,0]:{'lat':route_1.iloc[i,1],'lng':route_1.iloc[i,2]} for i in range(len(route_1))}
+    return [route_0, route_1]
 
 
-# def router(container_list):
-#     route = client.directions(coordinates=container_list,
-#                           profile='driving-car',
-#                           format='geojson')
-#     return route["features"][0]["geometry"]
+def router(container_list):
+    route = client.directions(coordinates=container_list,
+                          profile='driving-car',
+                          format='geojson')
+    return route["features"][0]["geometry"]
 
-# def plot_map(b, name='map'):
-#     coordinates_list = [[[b.loc[i,'lng'],b.loc[i,'lat']] for i in range(len(b)) if b.loc[i,'cluster']==j] for j in range(2)]
-#     addresses = [[b.loc[i,'address'] for i in range(len(b)) if b.loc[i,'cluster']==j] for j in range(2)]
-#     m = folium.Map(location=[b.loc[0,'lat'],b.loc[0,'lng']], tiles="OpenStreetMap", zoom_start=12)
-#     styles = [lambda x: {'color': '#00b0ffff', 'opacity': 0.8, 'weight': 4},
-#                 lambda x: {'color': '#FF2F2F', 'opacity': 0.8, 'weight': 4}]
-#     colors = ['#1d6ad2ff', '#FF2F2F']
-#     for k, coordinates in enumerate(coordinates_list):
-#         style = styles[k]
-#         color = colors[k]
-#         route = router(coordinates)
-#         waypoints = folium.GeoJson(route,style_function=style)
-#         waypoints.layer_name = f'route {k + 1}'
-#         waypoints.add_to(m)
-#         addresses_ = addresses[k]
-#         i=0
-#         for add in addresses_:
-#             folium.Marker(
-#                 location=[b.loc[b['address']==add,'lat'], b.loc[b['address']==add,'lng']],
-#                 popup=add,
-#                 icon=folium.DivIcon(
-#                     html=f"""<div style="font-family: courier new; font-size: 15pt; color: {color}">{i}</div>""")
+def plot_map(b, name='map'):
+    coordinates_list = [[[b.loc[i,'lng'],b.loc[i,'lat']] for i in range(len(b)) if b.loc[i,'cluster']==j] for j in range(2)]
+    addresses = [[b.loc[i,'address'] for i in range(len(b)) if b.loc[i,'cluster']==j] for j in range(2)]
+    m = folium.Map(location=[b.loc[0,'lat'],b.loc[0,'lng']], tiles="OpenStreetMap", zoom_start=12)
+    styles = [lambda x: {'color': '#00b0ffff', 'opacity': 0.8, 'weight': 4},
+                lambda x: {'color': '#FF2F2F', 'opacity': 0.8, 'weight': 4}]
+    colors = ['#1d6ad2ff', '#FF2F2F']
+    for k, coordinates in enumerate(coordinates_list):
+        style = styles[k]
+        color = colors[k]
+        route = router(coordinates)
+        waypoints = folium.GeoJson(route,style_function=style)
+        waypoints.layer_name = f'route {k + 1}'
+        waypoints.add_to(m)
+        addresses_ = addresses[k]
+        i=0
+        for add in addresses_:
+            folium.Marker(
+                location=[b.loc[b['address']==add,'lat'], b.loc[b['address']==add,'lng']],
+                popup=add,
+                icon=folium.DivIcon(
+                    html=f"""<div style="font-family: courier new; font-size: 15pt; color: {color}">{i}</div>""")
             
-#             ).add_to(waypoints)
+            ).add_to(waypoints)
         
-#             i+=1
-#         # Show the map
-#     folium.LayerControl().add_to(m)
-#     m.save(name+'.html')
+            i+=1
+        # Show the map
+    folium.LayerControl().add_to(m)
+    m.save(name+'.html')
 
-# def geocode_to_polygon(geocodes):
-#     lons_vect = np.array([i[0] for i in geocodes])
-#     lats_vect = np.array([i[1] for i in geocodes])
+def geocode_to_polygon(geocodes):
+    lons_vect = np.array([i[0] for i in geocodes])
+    lats_vect = np.array([i[1] for i in geocodes])
 
-#     # Point of interest P
-#     lats_vect = np.append(lats_vect, lats_vect[0])
-#     lons_vect = np.append(lons_vect, lons_vect[0])
-#     lons_lats_vect = np.column_stack((lons_vect, lats_vect)) # Reshape coordinates
-#     polygon = Polygon(lons_lats_vect) # create polygon
+    # Point of interest P
+    lats_vect = np.append(lats_vect, lats_vect[0])
+    lons_vect = np.append(lons_vect, lons_vect[0])
+    lons_lats_vect = np.column_stack((lons_vect, lats_vect)) # Reshape coordinates
+    polygon = Polygon(lons_lats_vect) # create polygon
 
-#     return polygon
+    return polygon
 
-# def clusterize_prezero(data, zone):
-#     global zones, a
-#     zones = zone
-#     a = data
-#     def sub():
-#         c="{k:"
-#         for z in range(len(zones)):
-#             for i in range(len(zones[z])):
-#                 c += "{'lat':v['lat'], 'lng':v['lng'], 'cluster':'zona_%i_%i'} if Point(v['lng'], v['lat']).within(zones[%i][%i]) == True else("%(z+1,i+1,z,i)
+def clusterize_prezero(data, zone):
+    global zones, a
+    zones = zone
+    a = data
+    def sub():
+        c="{k:"
+        for z in range(len(zones)):
+            for i in range(len(zones[z])):
+                c += "{'lat':v['lat'], 'lng':v['lng'], 'cluster':'zona_%i_%i'} if Point(v['lng'], v['lat']).within(zones[%i][%i]) == True else("%(z+1,i+1,z,i)
 
-#         b = eval("}".join([c.split("}")[:-1][v] if v!=(len(c.split("}")[:-1])-1) else c.split("}")[:-1][v].replace("else(", "else ") for v in range(len(c.split("}")[:-1]))])+"}"+")"*(sum([len(i) for i in zones])-2) + "for k,v in a.items()}")
-#         b_modified = pd.DataFrame(b).T.reset_index().rename(columns={'index':'address'})
-#         routes = []
-#         for zone in sorted(b_modified.cluster.unique()): 
-#             route = b_modified[b_modified.cluster==zone]
-#             route = {route.iloc[i,0]:{'lat':route.iloc[i,1],'lng':route.iloc[i,2]} for i in range(len(route))}
-#             routes.append(route)
-#         route_0, route_1 = routes[:2], routes[2:]
-#         return [route_0, route_1]
-#     return sub()
-
-
-# def creating_route(clusters, cluster, starting_point, ending_point):
-#     address_description=list(clusters[cluster].keys())
-#     lat_long = list(clusters[cluster].values())
-
-#     # add start and end points to the adresses list
-#     #addresses = [','.join([str(v['lat']), str(v['lng'])]) for v in [starting_point, ending_point]] + addresses
-
-#     # add start and end points to the lat-long list
-#     lat_long = [starting_point,ending_point]+lat_long
+        b = eval("}".join([c.split("}")[:-1][v] if v!=(len(c.split("}")[:-1])-1) else c.split("}")[:-1][v].replace("else(", "else ") for v in range(len(c.split("}")[:-1]))])+"}"+")"*(sum([len(i) for i in zones])-2) + "for k,v in a.items()}")
+        b_modified = pd.DataFrame(b).T.reset_index().rename(columns={'index':'address'})
+        routes = []
+        for zone in sorted(b_modified.cluster.unique()): 
+            route = b_modified[b_modified.cluster==zone]
+            route = {route.iloc[i,0]:{'lat':route.iloc[i,1],'lng':route.iloc[i,2]} for i in range(len(route))}
+            routes.append(route)
+        route_0, route_1 = routes[:2], routes[2:]
+        return [route_0, route_1]
+    return sub()
 
 
-#     # compute the distance matrix for every location
-#     distance_matrix, km_matrix = get_matrix_from_coordinates(coordinates=lat_long,
-#                                                     addresses=address_description,
-#                                                     recalculate=False,
-#                                                     use_google=True)
+def creating_route(clusters, cluster, starting_point, ending_point):
+    address_description=list(clusters[cluster].keys())
+    lat_long = list(clusters[cluster].values())
 
-#     # solve the TSP and save the routes
-#     routes = solve_vrp(distance_matrix=distance_matrix,
-#                         num_vehicles=1,
-#                         initial_routes=None)
+    # add start and end points to the adresses list
+    #addresses = [','.join([str(v['lat']), str(v['lng'])]) for v in [starting_point, ending_point]] + addresses
 
-#     report = [calculate_distance(routes[0],distance_matrix, cluster), calculate_distance(routes[0],km_matrix, cluster)]
+    # add start and end points to the lat-long list
+    lat_long = [starting_point,ending_point]+lat_long
 
 
+    # compute the distance matrix for every location
+    distance_matrix, km_matrix = get_matrix_from_coordinates(coordinates=lat_long,
+                                                    addresses=address_description,
+                                                    recalculate=False,
+                                                    use_google=True)
 
-#     return routes[0], address_description, lat_long, report
+    # solve the TSP and save the routes
+    routes = solve_vrp(distance_matrix=distance_matrix,
+                        num_vehicles=1,
+                        initial_routes=None)
 
-
-# def calculate_distance(route, distance_matrix, zone):
-#     total_distance = 0
-#     for i in range(len(route)-1):
-#         if ((zone==0)&(i==(len(route)-2))):
-#             pass
-#         else:
-#             idx1 = route[i]
-#             idx2 = route[i+1]
-#             total_distance+= distance_matrix[idx1][idx2]
-
-#     return total_distance
-
-# def create_report(route_num, type, report_t, report_km):    
-#     route_name = f'Ruta {type} {route_num}'    
-#     string = f'{route_name} porpuesta por GlobalDataQuantum: Duración estimada: {report_t} segundos ; Longitud: {report_km} metros.'    
-#     return string
-#     # with open(save_path,'w') as file:
-#     #     file.write(string)
+    report = [calculate_distance(routes[0],distance_matrix, cluster), calculate_distance(routes[0],km_matrix, cluster)]
 
 
-# def get_route_distance(coordinates, use_google = False):
-#     distance_matrix = []
-#     km_matrix = []
-#     for k in range(len(coordinates)-1):
-#             if use_google:
-#                 url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s&destinations=%s&key=%s"%(str(str(coordinates[k]['lat'])+','+str(coordinates[k]['lng'])),str(str(coordinates[k+1]['lat'])+','+str(coordinates[k+1]['lng'])),API_key)
-#             else:
-#                 url = f'https://api.distancematrix.ai/maps/api/distancematrix/json?origins={coordinates[k]}&destinations={coordinates[k+1]}&key={api_distance_matrix}'
-#             payload={}
-#             headers = {}
 
-#             response = requests.request("GET", url, headers=headers, data=payload)
-#             try:
-#                 distance_matrix_1 = [[response.json()['rows'][i]['elements'][j]['duration']['value'] for j in range(len(response.json()['rows'][i]['elements']))] for i in range(len(response.json()['rows']))]
-#                 km_matrix_1 =  [[response.json()['rows'][i]['elements'][j]['distance']['value'] for j in range(len(response.json()['rows'][i]['elements']))] for i in range(len(response.json()['rows']))]
-#             except:
-#                 print('ERROR IN DISTANCE MATRIX RESPONSE')
-#                 break
-#             distance_matrix.append(distance_matrix_1[0][0])
-#             km_matrix.append(km_matrix_1[0][0])
-#             if not use_google:
-#                 time.sleep(5)
-#     # distance_matrix = distance_matrix.tolist()
-#     distance_matrix = [np.round(x).astype(int) for x in distance_matrix]
+    return routes[0], address_description, lat_long, report
+
+
+def calculate_distance(route, distance_matrix, zone):
+    total_distance = 0
+    for i in range(len(route)-1):
+        if ((zone==0)&(i==(len(route)-2))):
+            pass
+        else:
+            idx1 = route[i]
+            idx2 = route[i+1]
+            total_distance+= distance_matrix[idx1][idx2]
+
+    return total_distance
+
+def create_report(route_num, type, report_t, report_km):    
+    route_name = f'Ruta {type} {route_num}'    
+    string = f'{route_name} porpuesta por GlobalDataQuantum: Duración estimada: {report_t} segundos ; Longitud: {report_km} metros.'    
+    return string
+    # with open(save_path,'w') as file:
+    #     file.write(string)
+
+
+def get_route_distance(coordinates, use_google = False):
+    distance_matrix = []
+    km_matrix = []
+    for k in range(len(coordinates)-1):
+            if use_google:
+                url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s&destinations=%s&key=%s"%(str(str(coordinates[k]['lat'])+','+str(coordinates[k]['lng'])),str(str(coordinates[k+1]['lat'])+','+str(coordinates[k+1]['lng'])),API_key)
+            else:
+                url = f'https://api.distancematrix.ai/maps/api/distancematrix/json?origins={coordinates[k]}&destinations={coordinates[k+1]}&key={api_distance_matrix}'
+            payload={}
+            headers = {}
+
+            response = requests.request("GET", url, headers=headers, data=payload)
+            try:
+                distance_matrix_1 = [[response.json()['rows'][i]['elements'][j]['duration']['value'] for j in range(len(response.json()['rows'][i]['elements']))] for i in range(len(response.json()['rows']))]
+                km_matrix_1 =  [[response.json()['rows'][i]['elements'][j]['distance']['value'] for j in range(len(response.json()['rows'][i]['elements']))] for i in range(len(response.json()['rows']))]
+            except:
+                print('ERROR IN DISTANCE MATRIX RESPONSE')
+                break
+            distance_matrix.append(distance_matrix_1[0][0])
+            km_matrix.append(km_matrix_1[0][0])
+            if not use_google:
+                time.sleep(5)
+    # distance_matrix = distance_matrix.tolist()
+    distance_matrix = [np.round(x).astype(int) for x in distance_matrix]
     
-#     return sum(km_matrix),sum(distance_matrix)
+    return sum(km_matrix),sum(distance_matrix)
 
