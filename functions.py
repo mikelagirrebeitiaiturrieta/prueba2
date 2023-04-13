@@ -24,7 +24,7 @@ import json
 from test import get_add_from_file
 # sp = stopwords.words
 ors_key = "5b3ce3597851110001cf624847c29f8864ce433699208e1c6c1cb793"
-# client = ors.Client(key=ors_key)
+client = ors.Client(key=ors_key)
 # API_key = 'AIzaSyCcb-HIYqA-N4JhPP-zlIe_onpgxgFn9rI'
 # API_key = 'AIzaSyACG6EutbA0rKDpZA_Ny5vquytD2THwUks'
 # api_distance_matrix =  'Au4AJmZEHNaKt5qU6qpxp5DazATW6' #'o0m7tdE0dwHQE14hsacTnDjzYFOFC'
