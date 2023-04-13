@@ -11,7 +11,7 @@ lista2_2_1 = ft.geocode_to_polygon(lista2_2)
 elec_1_1 = ft.geocode_to_polygon(elec_1)
 elec_2_1 = ft.geocode_to_polygon(elec_2)
 
-def main(config, file, tipo):
+def main(config, file, tipo, test_=False):
     upload_folder = config['upload_folder']
     # datadir = config['datadir']
     templatesdir = config['templatesdir']
@@ -21,14 +21,18 @@ def main(config, file, tipo):
     unload = {"lat":43.35622, "lng": -8.45764}
     endings = {'muebles':[{'lat':43.36722825763309, 'lng':-8.407918317317424},{'lat':43.35507941519058, 'lng':-8.40410800474373}], 'electrodomesticos':[{'lat':43.37411501888933, 'lng':-8.437384493837364}]}
 
-    # print(filepath)
-    data = ft.get_geocode(file_dir_name=filepath, tipo = tipo,directory=upload_folder, test=True)
+    data = ft.get_geocode(file_dir_name=filepath, tipo = tipo,directory=upload_folder, test=test_)
+
     if tipo=='muebles':
-        clusters = ft.clusterize_prezero(data, [[lista1_1_1, lista1_2_1], [lista2_1_1, lista2_2_1]])
+        try:
+            clusters = ft.clusterize_prezero(data, [[lista1_1_1, lista1_2_1], [lista2_1_1, lista2_2_1]])
+        except Exception as e:
+            print(e)
     else:
         # print('here')
         clusters = ft.clusterize_prezero(data, [[elec_1_1, elec_2_1]])
         clusters=clusters[:-1]
+
     all_routes, address_descriptions, lat_longs, report_t, report_km = [], [], [], [], []
     # print('starting')
     for cluster in range(len(clusters)):
@@ -86,14 +90,19 @@ def main(config, file, tipo):
     # prezero_routes = get_add_from_file_routes(filepath, tipo)
     # prezero_routes = [ft.get_route_distance([base]+[data[k] for k in r]+[unload], use_google=True) for r in prezero_routes]
     #save the routes to excel files
+    all_files = os.listdir(upload_folder)
+    [os.remove(os.path.join(upload_folder, f)) for f in all_files if ((tipo in f)&('ordenado' in f))]
+    df_new = pd.DataFrame(columns=['Rutas'])
+    save_path = os.path.join(upload_folder, file[:10]+'_'+tipo+'_ordenado.xlsx')
     for i in range(len(address_routes)):
-        save_path = os.path.join(config['upload_folder'], file[:-5]+'_'+tipo+'_%s_ordenado.xlsx'%str(i))
-        df_new = pd.DataFrame(address_routes[i])
-        report_text = ft.create_report(i,tipo,report_t[i],report_km[i])
+        df_new.loc[len(df_new)]='Ruta %s'%str(i+1)
+        df_new = pd.concat([df_new,pd.DataFrame(address_routes[i], columns=['Rutas'])], axis=0, ignore_index=True)
+        # report_text = ft.create_report(i,tipo,report_t[i],report_km[i])
         # report_text_2 = test_report(i, tipo, prezero_routes[i][1], prezero_routes[i][0])
-        df_new.loc[len(df_new)]=report_text
+        df_new.loc[len(df_new)]=''
         # df_new.loc[len(df_new)]=report_text_2
-        df_new.to_excel(save_path, index=None)
+    df_new.to_excel(save_path, index=None)
+   
     
     print('Ruta %s archivo %s' %(tipo,file))
     print('Global Data Quantum: tiempo total %f segundos y distancia total %f'%(sum(report_t), sum(report_km)))

@@ -189,14 +189,15 @@ def muebles():
                 except:
                     if request.files.get("filename"):
                         file = request.files.get("filename")
-                        file.filename = 'muebles_routes.xls'
-                        # if os.path.exists(app.config['UPLOAD_FOLDER']):
-                        #     files = os.listdir(app.config['UPLOAD_FOLDER'])
-                        #     [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'muebles_routes.xls' in file]
-                        #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-                        # else:
-                        #     os.makedirs(app.config['UPLOAD_FOLDER'])
-                        #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+                        fname = file.filename
+                        file.filename = fname[:10]+'_'+'muebles_routes.xls'
+                        if os.path.exists(app.config['UPLOAD_FOLDER']):
+                            files = os.listdir(app.config['UPLOAD_FOLDER'])
+                            [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'muebles_routes.xls' in file]
+                            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+                        else:
+                            os.makedirs(app.config['UPLOAD_FOLDER'])
+                            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
                         # print('su')
                         access=True
                         return redirect(url_for('muebles'))
@@ -206,17 +207,16 @@ def muebles():
                 if (request.form['run']=='error'):
                     return redirect(url_for('muebles'))
                 elif (request.form['run']==''):
-                    # list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
-                    # last_file = [file for file in list_dir if 'muebles_routes.xls' in file][-1]
+                    list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
+                    last_file = [file for file in list_dir if 'muebles_routes.xls' in file][-1]
                     # file = os.listdir(app.config['UPLOAD_FOLDER'])
                     # [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'm' in file]
                     # main(path=os.path.join(app.config['UPLOAD_FOLDER'], file), num_vehicles=1)
                     # config = json.load(open('config.json','rb'))
-                    # print(config)
-                    # main(config=config, file=last_file, type='muebles')
+                    # print('here')
+                    main(config=config, file=last_file, tipo='muebles', test_=False)
                     access=True
-                    time.sleep(1)
-                    # print('hello')
+                    # time.sleep(1)
                     return render_template('muebles.html')
             except:
                 pass
@@ -271,14 +271,15 @@ def electrodomesticos():
                 except:
                     if request.files.get("filename"):
                         file = request.files.get("filename")
-                        file.filename = 'electrodomesticos_routes.xls'
-                        # if os.path.exists(app.config['UPLOAD_FOLDER']):
-                        #     files = os.listdir(app.config['UPLOAD_FOLDER'])
-                        #     [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'electrodomesticos_routes.xls' in file]
-                        #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-                        # else:
-                        #     os.makedirs(app.config['UPLOAD_FOLDER'])
-                        #     file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+                        fname = file.filename
+                        file.filename = fname[:10]+'_'+'electrodomesticos_routes.xls'
+                        if os.path.exists(app.config['UPLOAD_FOLDER']):
+                            files = os.listdir(app.config['UPLOAD_FOLDER'])
+                            [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'electrodomesticos_routes.xls' in file]
+                            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+                        else:
+                            os.makedirs(app.config['UPLOAD_FOLDER'])
+                            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
                         access=True
                         return redirect(url_for('electrodomesticos'))
             except:
@@ -287,16 +288,16 @@ def electrodomesticos():
                 if (request.form['run']=='error'):
                     return redirect(url_for('electrodomesticos'))
                 elif (request.form['run']==''):
-                    # list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
-                    # last_file = [file for file in list_dir if 'electrodomesticos_routes.xls' in file][-1]
+                    list_dir = os.listdir(app.config["UPLOAD_FOLDER"])
+                    last_file = [file for file in list_dir if 'electrodomesticos_routes.xls' in file][-1]
                     # file = os.listdir(app.config['UPLOAD_FOLDER'])
                     # [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'm' in file]
                     # main(path=os.path.join(app.config['UPLOAD_FOLDER'], file), num_vehicles=1)
-                    config = json.load(open('config.json','rb'))
+                    # config = json.load(open('config.json','rb'))
                     # print(config)
-                    # main(config=config, file=last_file, type='electrodomesticos')
+                    main(config=config, file=last_file, tipo='electrodomesticos', test_=False)
                     access=True
-                    time.sleep(1)
+                    # time.sleep(1)
                     return render_template('electrodomesticos.html')
             except:
                 pass

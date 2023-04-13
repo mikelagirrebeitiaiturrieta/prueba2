@@ -18,6 +18,7 @@ import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
+from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 from bounding_boxes import *
 import json
@@ -68,6 +69,7 @@ def check_city(loc):
             return 'None'
 
 def get_lat_long_osm(address):
+    sp = pickle.load(open('SavedData/sp.pkl','rb'))
     x = address
     addresses_mod_dict = {x:(re.split(r'\d+',x)[0], '' if re.findall(r'\d+',x)==[] else re.findall(r'\d+',x)[0])}
     addresses_mod = list(addresses_mod_dict.values())
@@ -249,13 +251,13 @@ def get_geocode(file_dir_name, tipo, directory='datos/', test = False):
     new_adresses = list(set(new_adresses_dict.keys()))
 
     addr_geocoded = {}
+
     for addr in new_adresses:
         lat_lng, pc = get_lat_long_google(addr)
         if pc in coruña_postcodes:
             addr_geocoded[addresses_mod_dict[new_adresses_dict[addr]]] = lat_lng
         else:
             addr_geocoded[addresses_mod_dict[new_adresses_dict[addr]]] = get_lat_long_osm(addr)
-
 
     return addr_geocoded
 
@@ -477,7 +479,7 @@ def create_map(coordinates_list, address_list, type, save_path):
 
     folium.LayerControl().add_to(m)
     m.save(save_path)
-    auto_open(save_path)
+    # auto_open(save_path)
 
     
 def clusterize_routes(a, file='map'):
