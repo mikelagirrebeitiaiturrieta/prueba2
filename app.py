@@ -6,7 +6,7 @@ import time
 import json
 app = Flask(__name__)
 config = json.load(open('config.json','rb'))
-# app.config['UPLOAD_FOLDER'] = config['upload_folder']
+app.config['UPLOAD_FOLDER'] = config['upload_folder']
 
 access=False
 mueble=''
@@ -211,7 +211,7 @@ def muebles():
                     # file = os.listdir(app.config['UPLOAD_FOLDER'])
                     # [os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file)) for file in files if 'm' in file]
                     # main(path=os.path.join(app.config['UPLOAD_FOLDER'], file), num_vehicles=1)
-                    config = json.load(open('config.json','rb'))
+                    # config = json.load(open('config.json','rb'))
                     # print(config)
                     # main(config=config, file=last_file, type='muebles')
                     access=True
