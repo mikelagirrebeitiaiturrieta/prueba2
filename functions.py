@@ -31,8 +31,8 @@ api_distance_matrix =  'Au4AJmZEHNaKt5qU6qpxp5DazATW6' #'o0m7tdE0dwHQE14hsacTnDj
 
 config = json.load(open('config.json','rb'))
 # # sp = stopwords.words('spanish')
-# spanish = SpellChecker(language='es')
-# locator = Nominatim(user_agent='myGeocoder')
+spanish = SpellChecker(language='es')
+locator = Nominatim(user_agent='myGeocoder')
 
 # centro_coruña = [43.3713500, -8.3960000]
 # coruña_limits = locator.geocode('A Coruña, Galicia, España',timeout = 100, language='es').raw['boundingbox']
